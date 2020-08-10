@@ -1,0 +1,209 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+
+{% if data.status %}
+<div class="alert alert-success text-center" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Updated</strong>
+    <h3 id="prompt"></h3>
+</div>
+{% endif %}
+
+
+<!-- <section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s"> -->
+<!-- <div class="container"> -->
+<!-- <div class="row">
+            <div class="col-md-12 mb-4">
+
+                <div class="account-info table-responsive" style="min-height: 500px !important;">
+
+
+                    <h4 class="mb-4">Recent Questions</h4>
+                    {% if data.questions  %}
+                    <table class="table table-striped bg-white border" id="queslist">
+                        <thead>
+                            <tr>
+                                <th scope="col">QId</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">View</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        {% for question in data.questions %}
+                        <tr>
+                            <td>{{question.id}} </td>
+                            <td>{{question.subject}} </td>
+                            <td>{{question.title}} </td>
+                            <td>{% if question.status == '0' %} Posted {%endif%}
+                                {% if question.status == '1' %} Accepted {%endif%}
+                                {% if question.status == '2' %} Answered {%endif%}</td>
+
+                            <td><a href="/tutee/question/{{question.id}}" class="btn btn-primary">View</a></td>
+
+                            <td><button onclick="deleteQuestion({{question.id}})"
+                                    class="btnDelete btn btn-primary">Delete</button>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="text-center">None</p>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div> -->
+
+<!-- </div> -->
+<!-- </div>
+</section> -->
+
+<div class="row">
+    <div class="col-md-12 mb-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                    aria-selected="true">My Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                    aria-controls="profile" aria-selected="false">My Answers</a>
+            </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                <div class="account-info table-responsive" style="min-height: 500px !important;">
+
+                    <h4 class="mb-5"></h4>
+                    {% if data.questions  %}
+
+                    <table class="table table-striped border bg-white">
+                        <thead>
+                            <tr>
+                                <th scope="col">QId</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">View</th>
+                                <th scope="col">Delete</th>
+                            </tr>
+                        </thead>
+                        {% for question in data.questions %}
+                        <tr>
+                            <td>{{question.id}} </td>
+                            <td>{{question.subject}} </td>
+                            <td>{{question.title}} </td>
+                            <td>{% if question.status == '0' %} Posted {%endif%}
+                                {% if question.status == '1' %} Accepted {%endif%}
+                                {% if question.status == '2' %} Answered {%endif%}</td>
+
+                            <td><a href="/tutee/question/{{question.id}}" class="btn btn-primary">View</a></td>
+
+                            <td><button onclick="deleteQuestion({{question.id}})"
+                                    class="btnDelete btn btn-primary">Delete</button>
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="text-center">None</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <div class="account-info" style="min-height: 500px !important;">
+
+                    <h4 class="mb-5"></h4>
+                    {% if data.answers  %}
+
+                    <table class="table table-striped border bg-white">
+                        <thead>
+                            <tr>
+                                <th scope="col">QID</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">View Answer</th>
+                            </tr>
+                        </thead>
+                        {% for answer in data.answers %}
+                        <tr>
+                            <td>{{answer.id}} </td>
+                            <td>{{answer.qtitle}} </td>
+                            <td><a href="/tutee/question/{{answer.id}}" class="btn btn-primary">View</a></td>
+
+                        </tr>
+
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="text-center">None</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block custom_Script %}
+<script>
+    $(document).ready(function () {
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+        }, 2000);
+    });
+
+
+    function deleteQuestion(qid) {
+
+        $.get(`${window.location.origin}/tutee/deletequestion/${qid}`, $("#queslist").on('click', '.btnDelete',
+            function (data) {
+                $(this).closest('tr').remove();
+                $(".alert h3").html(data.msg);
+                $(".alert").show()
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                        $(this).remove();
+                    });
+                }, 2000);
+
+            }));
+
+    }
+</script>
+{% endblock %}

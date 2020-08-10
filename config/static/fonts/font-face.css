@@ -1,0 +1,240 @@
+@font-face {
+    font-family: 'Verlag Condensed';
+    src: url('VerlagCondensed-Light.eot');
+    src: url('VerlagCondensed-Light.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-Light.woff2') format('woff2'),
+        url('VerlagCondensed-Light.woff') format('woff'),
+        url('VerlagCondensed-Light.ttf') format('truetype'),
+        url('VerlagCondensed-Light.svg#VerlagCondensed-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag Condensed Book';
+    src: url('VerlagCondensed-Book.eot');
+    src: url('VerlagCondensed-Book.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-Book.woff2') format('woff2'),
+        url('VerlagCondensed-Book.woff') format('woff'),
+        url('VerlagCondensed-Book.ttf') format('truetype'),
+        url('VerlagCondensed-Book.svg#VerlagCondensed-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-Light.eot');
+    src: url('Verlag-Light.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Light.woff2') format('woff2'),
+        url('Verlag-Light.woff') format('woff'),
+        url('Verlag-Light.ttf') format('truetype'),
+        url('Verlag-Light.svg#Verlag-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag XLight';
+    src: url('Verlag-XLight.eot');
+    src: url('Verlag-XLight.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-XLight.woff2') format('woff2'),
+        url('Verlag-XLight.woff') format('woff'),
+        url('Verlag-XLight.ttf') format('truetype'),
+        url('Verlag-XLight.svg#Verlag-XLight') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag Compressed';
+    src: url('VerlagCompressed-Bold.eot');
+    src: url('VerlagCompressed-Bold.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCompressed-Bold.woff2') format('woff2'),
+        url('VerlagCompressed-Bold.woff') format('woff'),
+        url('VerlagCompressed-Bold.ttf') format('truetype'),
+        url('VerlagCompressed-Bold.svg#VerlagCompressed-Bold') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-BlackItalic.eot');
+    src: url('Verlag-BlackItalic.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-BlackItalic.woff2') format('woff2'),
+        url('Verlag-BlackItalic.woff') format('woff'),
+        url('Verlag-BlackItalic.ttf') format('truetype'),
+        url('Verlag-BlackItalic.svg#Verlag-BlackItalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-LightItalic.eot');
+    src: url('Verlag-LightItalic.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-LightItalic.woff2') format('woff2'),
+        url('Verlag-LightItalic.woff') format('woff'),
+        url('Verlag-LightItalic.ttf') format('truetype'),
+        url('Verlag-LightItalic.svg#Verlag-LightItalic') format('svg');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Verlag Condensed XLight';
+    src: url('VerlagCondensed-XLight.eot');
+    src: url('VerlagCondensed-XLight.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-XLight.woff2') format('woff2'),
+        url('VerlagCondensed-XLight.woff') format('woff'),
+        url('VerlagCondensed-XLight.ttf') format('truetype'),
+        url('VerlagCondensed-XLight.svg#VerlagCondensed-XLight') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-Black.eot');
+    src: url('Verlag-Black.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Black.woff2') format('woff2'),
+        url('Verlag-Black.woff') format('woff'),
+        url('Verlag-Black.ttf') format('truetype'),
+        url('Verlag-Black.svg#Verlag-Black') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-Black_1.eot');
+    src: url('Verlag-Black_1.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Black_1.woff2') format('woff2'),
+        url('Verlag-Black_1.woff') format('woff'),
+        url('Verlag-Black_1.ttf') format('truetype'),
+        url('Verlag-Black_1.svg#Verlag-Black') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag Condensed XLight';
+    src: url('VerlagCondensed-XLight_1.eot');
+    src: url('VerlagCondensed-XLight_1.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-XLight_1.woff2') format('woff2'),
+        url('VerlagCondensed-XLight_1.woff') format('woff'),
+        url('VerlagCondensed-XLight_1.ttf') format('truetype'),
+        url('VerlagCondensed-XLight_1.svg#VerlagCondensed-XLight') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-Bold.eot');
+    src: url('Verlag-Bold.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Bold.woff2') format('woff2'),
+        url('Verlag-Bold.woff') format('woff'),
+        url('Verlag-Bold.ttf') format('truetype'),
+        url('Verlag-Bold.svg#Verlag-Bold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag XLight';
+    src: url('Verlag-XLight_1.eot');
+    src: url('Verlag-XLight_1.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-XLight_1.woff2') format('woff2'),
+        url('Verlag-XLight_1.woff') format('woff'),
+        url('Verlag-XLight_1.ttf') format('truetype'),
+        url('Verlag-XLight_1.svg#Verlag-XLight') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag Condensed';
+    src: url('VerlagCondensed-Light_1.eot');
+    src: url('VerlagCondensed-Light_1.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-Light_1.woff2') format('woff2'),
+        url('VerlagCondensed-Light_1.woff') format('woff'),
+        url('VerlagCondensed-Light_1.ttf') format('truetype'),
+        url('VerlagCondensed-Light_1.svg#VerlagCondensed-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-LightItalic_1.eot');
+    src: url('Verlag-LightItalic_1.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-LightItalic_1.woff2') format('woff2'),
+        url('Verlag-LightItalic_1.woff') format('woff'),
+        url('Verlag-LightItalic_1.ttf') format('truetype'),
+        url('Verlag-LightItalic_1.svg#Verlag-LightItalic') format('svg');
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Verlag Book';
+    src: url('Verlag-Book.eot');
+    src: url('Verlag-Book.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Book.woff2') format('woff2'),
+        url('Verlag-Book.woff') format('woff'),
+        url('Verlag-Book.ttf') format('truetype'),
+        url('Verlag-Book.svg#Verlag-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag Condensed Book';
+    src: url('VerlagCondensed-Book_1.eot');
+    src: url('VerlagCondensed-Book_1.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCondensed-Book_1.woff2') format('woff2'),
+        url('VerlagCondensed-Book_1.woff') format('woff'),
+        url('VerlagCondensed-Book_1.ttf') format('truetype'),
+        url('VerlagCondensed-Book_1.svg#VerlagCondensed-Book') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-BlackItalic_1.eot');
+    src: url('Verlag-BlackItalic_1.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-BlackItalic_1.woff2') format('woff2'),
+        url('Verlag-BlackItalic_1.woff') format('woff'),
+        url('Verlag-BlackItalic_1.ttf') format('truetype'),
+        url('Verlag-BlackItalic_1.svg#Verlag-BlackItalic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Verlag Compressed';
+    src: url('VerlagCompressed-Bold_1.eot');
+    src: url('VerlagCompressed-Bold_1.eot?#iefix') format('embedded-opentype'),
+        url('VerlagCompressed-Bold_1.woff2') format('woff2'),
+        url('VerlagCompressed-Bold_1.woff') format('woff'),
+        url('VerlagCompressed-Bold_1.ttf') format('truetype'),
+        url('VerlagCompressed-Bold_1.svg#VerlagCompressed-Bold') format('svg');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Verlag';
+    src: url('Verlag-Light_1.eot');
+    src: url('Verlag-Light_1.eot?#iefix') format('embedded-opentype'),
+        url('Verlag-Light_1.woff2') format('woff2'),
+        url('Verlag-Light_1.woff') format('woff'),
+        url('Verlag-Light_1.ttf') format('truetype'),
+        url('Verlag-Light_1.svg#Verlag-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+}
+

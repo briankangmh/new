@@ -1,0 +1,504 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Updated</strong> Successfully.
+</div>
+{% endif %}
+
+<section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+        <!-- <div class="container"> -->
+        {%csrf_token%}
+        <div class="row">
+            <div class="col-md-6 content-wrapper mb-4">
+                <div class="account-info">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="mb-5">Question id : {{data.id}}</h4>
+                                </div>
+                                <div class="col">
+                                    <h6 class="card-subtitle mb-2 text-muted text-right">{{data.subject}} </h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-right">{{data.date_created}} </h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{data.title}} </h5>
+                            <p class="card-text">{{data.desc}} </p>
+                            <h4>Attachments</h4>
+                            <div id="question-attach"></div>
+
+                        </div>
+                        <div class="card-footer">
+                            <p>Status : {% if data.status == '0' %} Posted {%endif%}
+                                {% if data.status == '1' %} Accepted {%endif%}
+                                {% if data.status == '2' %} Answered, {{data.id}} {%endif%}
+                                {% if data.status == '3' %} Viewed {%endif%}
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>View Answer</h4>
+                            <h6>Tutor: {% if data.accepted_by != '' %} {{data.accepted_by.first_name}} {% else %} Not
+                                Assigned {% endif %}</h6>
+                            <p>Price : ${{data.price}}</p>
+                        </div>
+
+
+                        <div id="answer-panel" class="card-body text-muted">
+                            <h3>Answer:</h3>
+                            <h5 id="answer-title"></h5>
+                            <br />
+                            <div id="answer-sub-pane">
+                                <h4>Remarks</h4>
+                                <p id="answer-remarks"></p>
+                                <br />
+                                <h4>Attachments</h4>
+
+                                <div id="answer-attach"></div>
+                                <br>
+                            </div>
+                        </div>
+
+                        <div id="pay-button" class="card-footer">
+                            {% if data.status == '0' %}
+                            <h5>Once Tutor Assigned you will be able to Pay for the Answer</h5>
+                            {% else %}
+
+                            <button onclick="makePayment()" type="button" class="btn btn-primary">Pay</button>
+                            {% endif %}
+                        </div>
+
+                        <div id="tutor-feedback" class="card-footer text-muted">
+                            <div id="tutor-feedback-resp"></div>
+                            <form>
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Rating 0 - 5</label>
+                                    <input min="0" max="5" id="rating" name="rating" class="form-control">
+                                </div>
+
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Comments</label>
+                                    <input type="text" id="remarks" name="remarks" class="form-control" value=""
+                                        required>
+                                </div>
+
+                                <button type="submit" class="btn transparent-btn selected">Submit
+                                    Feedback</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 content-wrapper mb-4 account-info">
+
+                <div id="chat-room" class="card">
+                    {% if data.status != '0' %}
+
+                    <div class="card-header">
+                        <h4 class="mb-5">Chat Room</h4>
+                        <button onclick="makePaymentForCall('video')" type="button" class="btn btn-light">Video
+                            Call</button>
+                        <button onclick="makePaymentForCall('audio')" type="button" class="btn btn-light">Audio
+                            Call</button>
+                        <!-- <button onclick="generateToken('room_tutee_1_tutor_3')" type="button">Video
+                                    Call</button> 
+                                <button onclick="roomStatus()" type="button">Rooms Status</button>
+                                -->
+
+                    </div>
+                    <div class="card-body">
+                        <div id="messages"></div>
+
+                    </div>
+                    <div class="card-footer">
+
+                        <p id="token-message"></p>
+                        <div id="chat-pay">
+                            <p>Pay to start the conversation</p>
+                            <button onclick="makePaymentForCall('chat')" type="button" class="btn btn-primary">Connect
+                                chat</button>
+                        </div>
+
+                    </div>
+                    {% else %}
+                    <div class="card-header">
+                        <h4 class="mb-5">Chat Room</h4>
+                    </div>
+                    <div class="card-body">
+                        <h6>Chat will be enabled once a tutor is assigned</h6>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            <form id="message-form">
+                <div class="chat-header">
+                    <h5 class="m-0"><span class="green-dot mr-2"></span>Chat With us</h5>
+                </div>
+                <div class="chat-body">
+                    <textarea class="textarea mb-4 d-block" id="message-input" placeholder="Your message here" rows="3"
+                        autofocus></textarea>
+                    <button type="submit" class="button">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script type="text/javascript" src="{% static 'scripts/rooms.js' %}"></script>
+
+<script>
+    var vid = document.getElementById("myVid");
+    var tutee_id = "{{data.user.id}}";
+    var question_id = "{{data.id}}";
+    var tutor_id = "{{data.accepted_by.id}}";
+    var subject = "{{data.subject}}";
+    var view_status = "{{data.view_status}}";
+    var attachment = "{{data.attachment}}";
+    var q_status = "{{data.status}}";
+    var answer_id = "{{data.answer_id}}";
+    var questionPrice = "{{data.price}}";
+    var userWalletBalance = "{{user.userprofileinfo.wallet_balance}}";
+    var tutorContactPrice = 4;
+
+    $(document).ready(function () {
+        // Add newly sent messages to the channel
+        let $form = $("#message-form");
+        let $input = $("#message-input");
+        $form.on("submit", function (e) {
+            e.preventDefault();
+            if (roomChannel && $input.val().trim().length > 0) {
+                roomChannel.sendMessage($input.val());
+                $input.val("");
+            }
+        });
+
+        $form.hide()
+        console.log("answer_id", answer_id)
+        console.log("tutor_id", tutor_id)
+        console.log("view_status", view_status)
+        console.log("attachment", attachment)
+        attachment.split(",").forEach(att => {
+            $("#question-attach").append(
+                `<a href='${window.location.origin}/media/${att}' download>${att}</a><br>`);
+        })
+
+        getAnswer(question_id);
+        if (tutor_id != '') {
+            connectChat();
+            getActiveChatSessions(question_id);
+
+        }
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+        }, 2000);
+
+        $('#tutor-feedback').submit(function (event) {
+            event.preventDefault();
+            let rating = $('#rating').val();
+            let remarks = $('#remarks').val();
+
+            let post_data = {
+                rating: rating,
+                remarks: remarks,
+                question_id: question_id,
+                tutor_id: tutor_id
+            }
+
+            var formEl = $(this);
+            var submitButton = $('input[type=submit]', formEl);
+            console.log(post_data)
+
+            $.ajax({
+                type: 'POST',
+                url: `${window.location.origin}/tutee/answer/${answer_id}/feedback`,
+                accept: {
+                    javascript: 'application/javascript'
+                },
+                data: {
+                    ...post_data,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                beforeSend: function () {
+                    submitButton.prop('disabled', 'disabled');
+                }
+            }).done(function (data) {
+                submitButton.prop('disabled', false);
+                $("#tutor-feedback-resp").html(data.msg);
+            });
+        });
+
+    });
+
+
+    function vidCall(call_type) {
+        let post_data = {
+            'subject': subject,
+            'question_id': question_id,
+            'tutor_id': tutor_id,
+            'call_type': call_type
+        }
+        console.log(post_data)
+
+        let data = {
+            ...post_data,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+        $.post(`${window.location.origin}/chat/twilio/video_call`, data, function (data, status) {
+            if (data.status) {
+                console.log(data);
+                generateToken(data.room_name, call_type);
+                $("#token-message").html(data.msg);
+            } else {
+                $("#token-message").html(data.msg);
+            }
+        });
+    }
+
+    function roomStatus() {
+        $.get(`${window.location.origin}/chat/twilio/rooms`, function (data, status) {
+            console.log(data);
+        });
+    }
+
+    function getActiveChatSessions(question_id) {
+        $.get(`${window.location.origin}/payment/active_chat_session/${question_id}`, function (data, status) {
+            console.log("getActiveChatSessions")
+            console.log(data);
+            if (data.status) {
+                let active_sessions = JSON.parse(data.active_sessions);
+                console.log(active_sessions)
+            }
+        });
+    }
+
+    function getAnswer(question_id) {
+        $.get(`${window.location.origin}/tutee/answer/${question_id}`, function (data, status) {
+            console.log("getAnswer", data, status)
+            if (data.status) { // paid
+                if (data.answered) {
+                    var answer = JSON.parse(data.answer)[0].fields;
+                    var feedback = JSON.parse(data.feedback)[0];
+
+                    console.log("answer", answer)
+                    console.log("feedback", feedback)
+
+                    if (feedback) {
+                        var feedbackData = JSON.parse(data.feedback)[0].fields;
+                        console.log(feedbackData)
+                        $("#rating").val(feedbackData.rating);
+                        $("#remarks").val(feedbackData.remarks)
+                    }
+
+                    $("#answer-title").html(answer.answer)
+                    $("#answer-remarks").html(answer.remarks)
+                    answer.attachment.split(",").forEach(att => {
+                        $("#answer-attach").append(
+                            `<a href='${window.location.origin}/media/${att}' download>${att}</a><br>`
+                        );
+                    })
+                    $("#answer-panel").show()
+                    $('#tutor-feedback').show()
+                } else {
+                    $("#answer-title").html(data.msg)
+                    $("#answer-sub-pane").hide()
+                    $("#answer-panel").show()
+                    $('#tutor-feedback').hide()
+                }
+                $("#pay-button").hide();
+            } else { // not paid
+                $("#answer-title").html(data.msg)
+                $("#answer-sub-pane").hide()
+                $("#answer-panel").show()
+                $('#tutor-feedback').hide()
+            }
+        });
+    }
+
+    function makePayment() {
+        swal({
+                title: 'Pay $' + questionPrice,
+                text: "Wallet Balance is $" + userWalletBalance,
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(value => {
+                console.log(value)
+                if (value) {
+
+                    if (parseFloat(userWalletBalance) < parseFloat(questionPrice)) {
+                        swal({
+                            title: "Error",
+                            text: "Insufficient Balance",
+                            icon: 'error',
+                        });
+                    } else {
+
+                        let post_body = {
+                            'amount': parseFloat(questionPrice),
+                            'tx_reason': "Answer",
+                            'question_id': question_id,
+                            'answer_id': answer_id,
+                            'to_user_id': tutor_id,
+                        }
+                        console.log("post_body", post_body)
+
+                        let post_data = {
+                            ...post_body,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        };
+                        $.post(`${window.location.origin}/payment/make_payment`, post_data, function (data,
+                            status) {
+                            console.log(data);
+
+                            if (data.status) {
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'success',
+                                });
+                                getAnswer(question_id);
+
+                            } else {
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'error',
+                                });
+                            }
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            swal({
+                                title: "Soneting Went Wrong",
+                                text: "Server Error",
+                                icon: 'error',
+                            });
+                        });
+                    }
+                }
+
+            })
+            .catch(err => {
+                if (err) {
+                    swal("Oh noes!", "Payment failed!", "error");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
+    }
+
+    function makePaymentForCall(call_type) {
+        swal({
+                title: 'Pay $' + tutorContactPrice,
+                text: "Wallet Balance is $" + userWalletBalance,
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(value => {
+                console.log(value)
+                if (value) {
+                    if (parseFloat(userWalletBalance) < parseFloat(tutorContactPrice)) {
+                        swal({
+                            title: "Error",
+                            text: "Insufficient Balance",
+                            icon: 'error',
+                        });
+                    } else {
+                        $("#loader").show();
+                        let post_body = {
+                            'amount': parseFloat(tutorContactPrice),
+                            'tx_reason': call_type,
+                            'question_id': question_id,
+                            'answer_id': answer_id,
+                            'to_user_id': tutor_id,
+                        }
+                        console.log("post_body", post_body)
+
+                        let post_data = {
+                            ...post_body,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        };
+                        $.post(`${window.location.origin}/payment/make_payment`, post_data, function (data,
+                            status) {
+                            console.log(data);
+
+                            if (data.status) {
+                                $("#loader").hide();
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'success',
+                                });
+                                if (call_type == 'chat') {
+                                    $("#message-form").show()
+                                    $("#chat-pay").hide()
+                                } else {
+                                    vidCall(call_type);
+                                    $("#videocall-modal").show();
+                                }
+
+                            } else {
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'error',
+                                });
+                            }
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            swal({
+                                title: "Someting Went Wrong",
+                                text: "Server Error",
+                                icon: 'error',
+                            });
+                        });
+                    }
+                }
+
+            })
+            .catch(err => {
+                if (err) {
+                    swal("Oh noes!", "Payment failed!", "error");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
+    }
+</script>
+{% endblock %}

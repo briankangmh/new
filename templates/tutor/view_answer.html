@@ -1,0 +1,224 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Updated</strong> Successfully.
+</div>
+{% endif %}
+
+<section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+        <!-- <div class="container"> -->
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="account-info">
+
+                    <div class="card">
+                        <div class="card-header">
+
+                            <div class="row">
+                                <div class="col">
+                                    <h4 class="mb-5">Question id : {{data.question.id}}</h4>
+                                </div>
+                                <div class="col">
+                                    <h6 class="card-subtitle mb-2 text-muted text-right">{{data.question.subject}} </h6>
+                                    <h6 class="card-subtitle mb-2 text-muted text-right">{{data.question.date_created}}
+                                    </h6>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">{{data.question.title}} </h5>
+                            <p class="card-text">{{data.question.desc}} </p>
+                            <h4>Attachments</h4>
+
+                            <div id="question-attach"></div>
+
+                        </div>
+                        <div class="card-footer">
+                            <p>Status : {% if data.question.status == '0' %} Posted {%endif%}
+                                {% if data.question.status == '1' %} Accepted {%endif%}
+                                {% if data.question.status == '2' %} Answered {%endif%}
+                                {% if data.question.status == '3' %} Viewed {%endif%}
+                            </p>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="mb-5">Answer id {{data.answer.id}}</h4>
+                        </div>
+
+                        <div class="card-body text-muted">
+                            <div id="answer-update-resp"></div>
+                            <form id="update-answer">
+                                {%csrf_token%}
+
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Answer</label>
+                                    <textarea id="answer" name="answer" class="form-control"
+                                        required>{{data.answer.answer}}</textarea>
+                                </div>
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Remarks</label>
+                                    <input type="text" id="remarks" name="remarks" class="form-control"
+                                        value="{{data.answer.remarks}}" required>
+                                </div>
+
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Attachments</label>
+
+                                    <div id="answer-attach"></div>
+
+                                </div>
+                                <div class="col-md-8 form-group mb-4">
+                                    <label for="name" class="d-block mb-2">Attachments (if any)</label>
+                                    <div class="upload-btn-wrapper">
+                                        <button class="btn line-btn">Upload</button>
+                                        <input type="file" name="photo" />
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn transparent-btn selected">Update
+                                    Answer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 content-wrapper mb-4">
+                <div class="account-info">
+                    <div id="chat-room" class="card">
+                        <div class="card-header">
+                            <h4 class="mb-5">Chat Room</h4>
+                        </div>
+                        <div class="card-body">
+                            <div id="messages"></div>
+
+
+                        </div>
+                        <div class="card-footer">
+                            <form id="message-form">
+                                <div class="chat-header">
+                                    <h5 class="m-0"><span class="green-dot mr-2"></span>Chat With us</h5>
+                                </div>
+                                <div class="chat-body">
+                                    <textarea class="textarea mb-4 d-block" id="message-input"
+                                        placeholder="Your message here" rows="3" autofocus></textarea>
+                                    <button type="submit" class="button">Send</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script type="text/javascript" src="{% static 'scripts/rooms.js' %}"></script>
+
+<script>
+    var answer_id = "{{data.answer.id}}";
+    var question_id = "{{data.question.id}}";
+    var tutee_id = "{{data.question.user_id}}";
+    var tutor_id = "{{data.question.accepted_by.id}}";
+    var questionAttachments = "{{data.question.attachment}}";
+    var answerAttachments = "{{data.answer.attachment}}";
+
+    $(document).ready(function () {
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+        }, 2000);
+
+        // Add newly sent messages to the channel
+        let $form = $("#message-form");
+        let $input = $("#message-input");
+        $form.on("submit", function (e) {
+            e.preventDefault();
+            if (roomChannel && $input.val().trim().length > 0) {
+                roomChannel.sendMessage($input.val());
+                $input.val("");
+            }
+        });
+        connectChat()
+
+        questionAttachments.split(",").forEach(att => {
+            $("#question-attach").append(
+                `<a href='${window.location.origin}/media/${att}' download>${att}</a><br>`);
+        })
+
+        answerAttachments.split(",").forEach(att => {
+            $("#answer-attach").append(
+                `<a href='${window.location.origin}/media/${att}' download>${att}</a><br>`);
+        })
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+        }, 2000);
+
+        $('#update-answer').submit(function (event) {
+            event.preventDefault();
+            let answer = $('#answer').val();
+            let remarks = $('#remarks').val();
+
+            post_data = {
+                'answer': answer,
+                'remarks': remarks
+            }
+
+            var formEl = $(this);
+            var submitButton = $('input[type=submit]', formEl);
+
+            $.ajax({
+                type: 'POST',
+                url: `${window.location.origin}/tutor/answer/${answer_id}/update`,
+                accept: {
+                    javascript: 'application/javascript'
+                },
+                data: {
+                    ...post_data,
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                beforeSend: function () {
+                    submitButton.prop('disabled', 'disabled');
+                }
+            }).done(function (data) {
+                submitButton.prop('disabled', false);
+                $('#answer-update-resp').html(data.msg);
+            });
+        });
+
+    });
+</script>
+{% endblock %}

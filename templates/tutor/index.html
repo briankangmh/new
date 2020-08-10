@@ -1,0 +1,151 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+	<div class="container">
+		<div class="row align-items-center justify-content-end no-gutters">
+			<div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+				<a href="/">
+					<img src="{% static 'images/logo.png'%}" class="img-fluid">
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+	body {
+		background: rgb(248, 249, 255);
+	}
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+	<button type="button" class="close" data-dismiss="alert">x</button>
+	<strong>Updated</strong> Successfully.
+</div>
+{% endif %}
+
+<section id="account-page" class="admin-container">
+	<div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<!-- <div class="container"> -->
+			<div class="row">
+				<div class="col-md-12 mb-4">
+
+					<div class="account-info">
+						<div class="row">
+							<div class=" col-md-6 button-wrapper mb-4">
+	
+								<h3 class="card-block mb-4">Subjects : {% if user.userprofileinfo.subject %}
+									{{ user.userprofileinfo.subject}} {%else%}
+									None
+									{%endif%}</h3>
+								<h3 class="card-block mb-4">Rating : {{ user.userprofileinfo.rating }} </h3>
+							</div>
+							<div class=" col-md-6 button-wrapper mb-4">
+								<h3 class="card-block mb-4">Total Hours {{ data.total_mins  }}</h3>
+								<!-- <h3>Today Hours {{ data.today_mins }}</h3> -->
+								<h3 class="card-block mb-4">Today Hours <span id="basicUsage">{{ data.today_mins }}</span>
+								</h3>
+							</div>
+						</div>
+						<h4 class="mb-4">Accepted Questions</h4>
+						<id id="notifylist"></id>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="question-wrapper mb-5">
+				<h4 class="mb-4">Recent Questions</h4>
+					<div class="row">
+					{% if data.questions  %}
+					{% for question in data.questions %}
+					<div class="col-md-4 content-wrapper mb-4">
+						<div class="card">
+							<div class="card-body">
+								<h5 class="card-title">{{question.title}} </h5>
+								<h6 class="card-subtitle mb-2 text-muted">{{question.subject}} </h6>
+								<p class="card-text">{{question.desc}} </p>
+							</div>
+							<div class="card-footer text-muted">
+								<h6 class="card-subtitle mb-2 text-muted">Status : {% if question.status == '0' %}
+									Posted {%endif%}
+									{% if question.status == '1' %} Accepted <br><br><a
+										href="/tutor/question/{{question.id}}" class="btn btn-primary">Answer
+										Question</a>
+									{%endif%}
+									{% if question.status == '2' or question.status == '3' %} Answered <br><br> <a
+										href="answer/{{question.id}}" class="btn btn-primary">View Answer</a>
+									{%endif%}</h6>
+
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+
+					{% else %}
+					<p class="text-center">None</p>
+					{% endif %}
+
+				</div>
+			</div>
+		<!-- </div> -->
+	</div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+
+<script>
+	var subject = "{{user.userprofileinfo.subject}}";
+	var today_secs = "{{data.today_secs}}"
+
+	$(document).ready(function () {
+
+		window.setTimeout(function () {
+			$(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+				$(this).remove();
+			});
+		}, 2000);
+
+		if (subject == "") {
+			swal({
+				title: "No Subjects Found",
+				text: "Update your subject expertise under your profile section to receive questions.",
+				icon: 'error',
+			});
+		}
+
+		var timer = new easytimer.Timer();
+		timer.start({
+			startValues: {
+				seconds: parseInt(today_secs)
+			}
+		});
+		timer.addEventListener('secondsUpdated', function (e) {
+			$('#basicUsage').html(timer.getTimeValues().toString());
+		});
+
+
+	});
+
+	function qBody(action) {
+		return `<div class="col-md-12 content-wrapper mb-4">
+								<div class="card" style="width: 18rem;">
+									<div class="card-body">
+									  <h5 class="card-title"> ${action.title} </h5>
+									  <h6 class="card-subtitle mb-2 text-muted"> ${action.subject}</h6>
+									  <p class="card-text"> ${action.desc}</p>
+									</div>
+									<div class="card-footer text-muted">
+										<a href="question/${action.qid}" class="btn btn-primary">Answer Question</a>
+									  </div>
+								  </div>
+							</div>`;
+	}
+</script>
+{% endblock %}

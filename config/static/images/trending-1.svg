@@ -1,0 +1,8 @@
+<svg id="Mouse" xmlns="http://www.w3.org/2000/svg" width="71.842" height="71.842" viewBox="0 0 71.842 71.842">
+  <rect id="Shape" width="71.842" height="71.842" transform="translate(0)" fill="none"/>
+  <circle id="Shape-2" data-name="Shape" cx="25.863" cy="25.863" r="25.863" transform="translate(10.058 14.368)" fill="#004b7a"/>
+  <path id="Shape-3" data-name="Shape" d="M306.9,469.931h19.094a11.5,11.5,0,0,1,11.495,11.495c0,.167,0,.333-.012.5l-1.54,35.438a19.509,19.509,0,0,1-38.98,0l-1.542-35.438A11.493,11.493,0,0,1,306.4,469.942C306.566,469.935,306.732,469.931,306.9,469.931Z" transform="translate(-280.525 -467.057)" fill="#0bd"/>
+  <path id="Shape-4" data-name="Shape" d="M316.445,469.931v66.095a19.507,19.507,0,0,1-19.489-18.662l-1.542-35.438A11.493,11.493,0,0,1,306.4,469.942c.167-.007.333-.011.5-.011Z" transform="translate(-280.525 -467.057)" fill="#0097db"/>
+  <path id="Shape-5" data-name="Shape" d="M305.048,469.931h14.369v15.805a7.184,7.184,0,0,1-14.369,0Z" transform="translate(-276.312 -467.057)" fill="#f8f9ff"/>
+  <path id="Shape-6" data-name="Shape" d="M310.922,473.931A2.873,2.873,0,0,1,313.8,476.8v4.311a2.874,2.874,0,1,1-5.747,0V476.8A2.874,2.874,0,0,1,310.922,473.931Z" transform="translate(-275.001 -465.31)" fill="#007ab2"/>
+</svg>

@@ -1,0 +1,236 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+    <button type="button" class="close" data-dismiss="alert">x</button>
+    <strong>Updated</strong>Successfully.
+</div>
+{% endif %}
+
+
+<section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+        <!-- <div class="container"> -->
+
+        <div class="row">
+            <div class="col-md-6 content-wrapper mb-4">
+
+                <div class="card">
+                    <img class="card-img-top" src="{{ data.tutor.photo.url }}" alt="Card image cap"
+                        style="width: 150px;">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{data.tutor.user.first_name}} {{data.tutor.user.last_name}}</h5>
+                        <p class="card-text">About</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Subject: {{data.tutor.subject}}</li>
+                        <li class="list-group-item">Country: {{data.tutor.country}}</li>
+                        <li class="list-group-item">Rating: {{data.tutor.rating}}</li>
+                    </ul>
+                    <div class="card-body">
+                        <p class="card-text">Status:
+                            {% if data.tutor.status == '1' and data.tutor.ws_status == '1' %}
+                            <span class="status">Online <span class="green-dot ml-2"></span></span>
+                            {% else %}
+                            <span class="status">Offline <span class="red-dot ml-2"></span></span> {%endif%}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 content-wrapper mb-4">
+                <div id="chat-room" class="card" style="width: 28rem;">
+                    <div class="card-header">
+                        <h4 class="mb-5">Chat Room</h4>
+                        <button onclick="makePaymentForCall('video')" type="button" class="btn btn-light">Video
+                            Call</button>
+                        <button onclick="makePaymentForCall('audio')" type="button" class="btn btn-light">Audio
+                            Call</button>
+
+                    </div>
+                    <div class="card-body">
+                        <div id="messages"></div>
+
+                    </div>
+                    <div class="card-footer">
+
+                        <p id="token-message"></p>
+                        <!-- <div id="chat-pay">
+                            <p>Pay to start the conversation</p>
+                            <button onclick="makePaymentForCall('chat')" type="button" class="btn btn-primary">Connect
+                                chat</button>
+                        </div> -->
+                    </div>
+
+                </div>
+                <form id="message-form">
+                    <div class="chat-header">
+                        <h5 class="m-0"><span class="green-dot mr-2"></span>Chat With us</h5>
+                    </div>
+                    <div class="chat-body">
+                        <textarea class="textarea mb-4 d-block" id="message-input" placeholder="Your message here"
+                            rows="3" autofocus></textarea>
+                        <button type="submit" class="button">Send</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script type="text/javascript" src="{% static 'scripts/rooms.js' %}"></script>
+
+<script>
+    var tutor_id = "{{data.tutor.user.id}}";
+    var tutee_id = "{{user.id}}";
+    var question_id = 0;
+    var tutorContactPrice = 4;
+    var userWalletBalance = "{{user.userprofileinfo.wallet_balance}}";
+
+
+    $(document).ready(function () {
+
+        // Add newly sent messages to the channel
+        let $form = $("#message-form");
+        let $input = $("#message-input");
+        $form.on("submit", function (e) {
+            e.preventDefault();
+            if (roomChannel && $input.val().trim().length > 0) {
+                roomChannel.sendMessage($input.val());
+                $input.val("");
+            }
+        });
+
+        $form.hide()
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+
+        }, 2000);
+
+    });
+
+    function makePaymentForCall(call_type) {
+        swal({
+                title: 'Pay $' + tutorContactPrice,
+                text: "Wallet Balance is $" + userWalletBalance,
+                buttons: true,
+                dangerMode: true,
+            })
+            .then(value => {
+                if (value) {
+                    if (parseFloat(userWalletBalance) < parseFloat(tutorContactPrice)) {
+                        swal({
+                            title: "Error",
+                            text: "Insufficient Balance",
+                            icon: 'error',
+                        });
+                    } else {
+                        let post_body = {
+                            'amount': parseFloat(tutorContactPrice),
+                            'tx_reason': call_type,
+                            'question_id': 0,
+                            'answer_id': 0,
+                            'to_user_id': tutor_id,
+                        }
+
+                        let post_data = {
+                            ...post_body,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        };
+                        $.post(`${window.location.origin}/payment/make_payment`, post_data, function (data,
+                            status) {
+
+                            if (data.status) {
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'success',
+                                });
+                                if (call_type == 'chat') {
+                                    $("#message-form").show()
+                                    $("#chat-pay").hide()
+                                } else {
+                                    vidCall(call_type);
+                                    $("#videocall-modal").show();
+                                }
+
+                            } else {
+                                swal({
+                                    title: "Payment",
+                                    text: data.msg,
+                                    icon: 'error',
+                                });
+                            }
+                        }).fail(function (jqXHR, textStatus, errorThrown) {
+                            swal({
+                                title: "Someting Went Wrong",
+                                text: "Server Error",
+                                icon: 'error',
+                            });
+                        });
+                    }
+                }
+
+            })
+            .catch(err => {
+                if (err) {
+                    swal("Oh noes!", "Payment failed!", "error");
+                } else {
+                    swal.stopLoading();
+                    swal.close();
+                }
+            });
+    }
+
+    function vidCall(call_type) {
+
+        let post_data = {
+            'subject': 'General',
+            'qid': 0,
+            'tutor_id': tutor_id,
+            'call_type': call_type
+        }
+
+        let data = {
+            ...post_data,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+        $.post(`${window.location.origin}/chat/twilio/video_call`, data, function (data, status) {
+            if (data.status) {
+                generateToken(data.room_name, call_type);
+                $("#token-message").html(data.msg);
+            } else {
+                $("#token-message").html(data.msg);
+            }
+        });
+    }
+</script>
+{% endblock %}

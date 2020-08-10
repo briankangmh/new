@@ -1,0 +1,72 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+<section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+        <!-- <div class="container"> -->
+ 
+            <div class="row">
+                <div class="col-md-12 content-wrapper mb-4">
+
+                    <div class="profile-wrapper">
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <h2>Enter Details for the Question</h2>
+
+                            </div>
+
+                        </div>
+                        <div class="account-info">
+                            <form action="{% url 'ticket' %}" method='post' enctype="multipart/form-data">
+                                {%csrf_token%}
+                                <div class="row mb-3 information">
+                                    
+                                    <div class="col-md-8 form-group mb-4">
+                                        <label for="title" class="d-block mb-2">Title</label>
+                                        <input type="text" id="title" name="title" class="form-control" value=""
+                                            required>
+                                    </div>
+
+                                    <div class="col-md-8 form-group mb-4">
+                                        <label for="ref_id" class="d-block mb-2">Reference ID</label>
+                                        <input type="text" id="ref_id" name="ref_id" class="form-control" value="" required>
+                                    </div>
+
+                                    <div class="col-md-8 form-group mb-4">
+                                        <label for="desc" class="d-block mb-2">Description</label>
+                                        <textarea id="desc" name="desc" class="form-control" required></textarea>
+                                    </div>
+
+                                </div>
+                                <button type="submit" class="btn transparent-btn selected">Save</a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        <!-- </div> -->
+
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="row align-items-center justify-content-end no-gutters">
+      <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+        <a href="/">
+          <img src="{% static 'images/logo.png'%}" class="img-fluid">
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: rgb(248, 249, 255);
+  }
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <strong>Updated</strong> Successfully.
+</div>
+{% endif %}
+
+<section id="account-page" class="admin-container">
+  <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-md-12 mb-4">
+
+        <div class="account-info table-responsive" style="min-height: 500px !important;">
+
+          <h4 class="mb-4">Recent Answers</h4>
+          {% if data.answers  %}
+
+          <table class="table table-striped bg-white border" id="anslist">
+            <thead>
+              <tr>
+                <th scope="col">Question ID</th>
+                <th scope="col">Anser ID</th>
+                <th scope="col">Answer</th>
+                <th scope="col">Remarks</th>
+                <th scope="col">Action</th>
+                <th scope="col">Delete</th>
+
+              </tr>
+            </thead>
+            {% for answer in data.answers %}
+            <tr>
+              <td>{{answer.qid}} </td>
+              <td>{{answer.id}} </td>
+              <td>{{answer.answer}} </td>
+              <td>{{answer.remarks}} </td>
+              <td><a href="answer/{{answer.qid}}" class="btn btn-primary">View Answer</a></td>
+              <td><button onclick="deleteQuestion({{answer.id}})" class="btnDelete btn btn-primary">Delete</button></td>
+
+            </tr>
+
+            {% endfor %}
+          </table>
+          {% else %}
+          <p class="text-center">None</p>
+          {% endif %}
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- </div> -->
+  </div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script>
+  function deleteQuestion(aid) {
+
+    $.get(`${window.location.origin}/tutor/deleteanswer/${aid}`, $("#anslist").on('click', '.btnDelete', function (
+      data) {
+      $(this).closest('tr').remove();
+      $(".alert h3").html(data.msg);
+      $(".alert").show()
+      window.setTimeout(function () {
+        $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+          $(this).remove();
+        });
+      }, 2000);
+
+    }));
+
+  }
+</script>
+{% endblock %}

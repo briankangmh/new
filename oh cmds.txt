@@ -1,0 +1,22 @@
+python manage.py migrate --fake users zero
+python manage.py makemigrations users
+python manage.py migrate --fake users
+
+python manage.py migrate --fake tutor zero
+python manage.py makemigrations tutor
+python manage.py migrate --fake tutor
+
+python manage.py migrate --fake tutee zero
+python manage.py makemigrations tutee
+python manage.py migrate --fake tutee
+
+python manage.py migrate --fake payment zero
+python manage.py makemigrations payment
+python manage.py migrate --fake payment
+
+python manage.py makemigrations
+python manage.py migrate
+
+python manage.py createsuperuser
+
+python manage.py runserver

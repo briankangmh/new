@@ -1,0 +1,612 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Office Hours</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-scss/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/swiper.min.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/customscrollbar.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/colorbox.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/chat_room.css' %}">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+	<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+
+	<!-- twilio -->
+	<script src="//media.twiliocdn.com/sdk/js/video/releases/2.4.0/twilio-video.min.js"></script>
+	<script src="https://media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js"></script>
+	<script src="https://media.twiliocdn.com/sdk/js/chat/v2.0/twilio-chat.min.js"></script>
+
+
+</head>
+
+<body>
+	{% block header %}
+	<header class="header wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container-fluid">
+			<div class="row align-items-center justify-content-between no-gutters">
+				<div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+					<a href="/">
+						<img src="{% static 'images/logo.png'%}" class="img-fluid">
+					</a>
+				</div>
+				<div class="col-auto wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+					<ul>
+						<li><a href="#topics">Topics</a></li>
+						<li><a href="#works">How It Works </a></li>
+						<li><a href="/login" class="btn border-btn">Login</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+	{% endblock %}
+
+	{% block nav %}
+
+	<section id="account-page" class="admin-container">
+		<div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-3 mb-4 left-navigation">
+						<div class="account-info">
+							<a
+								href="{% if user.userprofileinfo.ugroup == '1' %} {% url 'tutor_profile' %} {%endif%} {% if user.userprofileinfo.ugroup == '2' %} {% url 'tutee_profile' %} {%endif%}">
+								<img src="{% static 'images/admin.png'%}" class="img-fluid mb-4 admin" alt="">
+							</a>
+							<h6 class="mb-5">{{ user.first_name }}</h6>
+
+							{% if user.userprofileinfo.ugroup == '1' %}
+
+							<h5 class="websocket">Web Socket
+								{% if user.userprofileinfo.ws_status == '1' %}
+								<span class="green-dot"></span>
+								{%endif%}
+
+								{% if user.userprofileinfo.ws_status == '0' %}
+								<span class="red-dot"></span>
+								{%endif%}
+							</h5>
+
+							<input onclick="on()" type="checkbox" id="toggle-status" checked data-toggle="toggle"
+								data-onstyle="success" data-offstyle="danger" data-on="Online" data-off="Away">
+							{%endif%}
+
+							<h3 class="mb-3 pb-3">
+								{% if user.userprofileinfo.ugroup == '1' %}
+								TUTOR ACCOUNT
+								<form action="{% url 'switch_user_type' 2 %}" method="post"
+									enctype="multipart/form-data">
+									{% csrf_token %}
+									<button type="submit" class="btn transparent-btn selected">Switch To Tutee</button>
+								</form>
+								{%endif%}
+
+								{% if user.userprofileinfo.ugroup == '2' %}
+								TUTEE ACCOUNT
+								<form action="{% url 'switch_user_type' 1 %}" method="post"
+									enctype="multipart/form-data">
+									{% csrf_token %}
+									<button type="submit" class="btn transparent-btn selected">Switch To Tutor</button>
+								</form>
+								{%endif%}
+							</h3>
+
+							<h6 id="base-wallet-balance">Wallet : ${{ user.userprofileinfo.wallet_balance }} USD</h6>
+							<ul id="menu-list">
+
+								<li>
+									<a href="{% if user.userprofileinfo.ugroup == '1' %} {% url 'tutor' %} {%endif%} {% if user.userprofileinfo.ugroup == '2' %} {% url 'tutee' %} {%endif%}"
+										class="active">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#admin"></use>
+										</svg>
+										<!-- <img src="{% static 'images/account.png'%}" class="img-fluid" alt=""> -->
+										<span>Home</span>
+									</a>
+								</li>
+
+								<li>
+									<a
+										href="{% if user.userprofileinfo.ugroup == '1' %} {% url 'tutor_history' %} {%endif%} {% if user.userprofileinfo.ugroup == '2' %} {% url 'tutee_question_history' %} {%endif%}">
+
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#history"></use>
+										</svg>
+										<!-- <img src="{% static 'images/history.png'%}" class="img-fluid" alt=""> -->
+										<span>History</span>
+									</a>
+								</li>
+								<li>
+									<a
+										href="{% if user.userprofileinfo.ugroup == '1' %} {% url 'tutor_profile' %} {%endif%} {% if user.userprofileinfo.ugroup == '2' %} {% url 'tutee_profile' %} {%endif%}">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#admin"></use>
+										</svg>
+										<!-- <img src="{% static 'images/account.png'%}" class="img-fluid" alt=""> -->
+										<span>My Profile</span>
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'transaction_history' %}">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#wallet"></use>
+										</svg>
+										<!-- <img src="{% static 'images/wallet.png'%}" class="img-fluid" alt=""> -->
+										<span>My Wallet</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#billing"></use>
+										</svg>
+										<!-- <img src="{% static 'images/billing.png'%}" class="img-fluid" alt=""> -->
+										<span>Billing</span>
+									</a>
+								</li>
+								<li>
+									<a href="javascript:">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#subject"></use>
+										</svg>
+										<!-- <img src="{% static 'images/subject-1.png'%}" class="img-fluid" alt=""> -->
+										<span>Subject</span>
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'ticket_list' %}">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#support"></use>
+										</svg>
+										<!-- <img src="{% static 'images/support.png'%}" class="img-fluid" alt=""> -->
+										<span>Support</span>
+									</a>
+								</li>
+								<li>
+									<a href="{% url 'logout' %}">
+										<svg>
+											<use xlink:href="../../static/images/icons.svg#logout"></use>
+										</svg>
+										<!-- <img src="{% static 'images/logout.png'%}" class="img-fluid" alt=""> -->
+										<span>Logout</span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+
+					<div class="col-md-9 content-wrapper mb-4">
+						{% endblock %}
+						{% block content %}
+
+						{% endblock %}
+						{% block nav2 %}
+
+					</div>
+
+					<div id="videocall-modal" class="modal-wrapper">
+						<div class="row content">
+							<div class="col-md-6 mb-4 mb-md-0">
+								<div id="video-call"></div>
+							</div>
+							<div class="col-md-3 mb-4 mb-md-0">
+								<div id="local-media"> </div>
+								<button onclick="disableVideo()">Turn off Video</button>
+								<button onclick="enableVideo()">Turn On Video</button>
+								<button onclick="muteAudio()">Mute</button>
+								<button onclick="unMuteAudio()">Unmute</button>
+								<button onclick="endCall()">End Call</button>
+
+								<h5>Participant Status</h5>
+								<p id="video-status">Video On</p>
+								<p id="audio-status">Audio On</p>
+								<p id="call-events"></p>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div id="loader" class="loader">
+				<div class="content">
+					<img src="{% static 'images/loader.gif'%}" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% endblock %}
+
+
+	<script type="text/javascript" src="{% static 'js/websocketbridge.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/wow.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/owl.carousel.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/selectric.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/validate.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/swiper.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/customscrollbar.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/colorbox.min.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/script.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/easytimer.min.js'%}"></script>
+
+	<script>
+		$(window).on("load",function(){
+			if(window.location.hash == "#tutee"){
+				$('a#tutee-text').click();
+			}
+		});
+
+		const Video = Twilio.Video;
+
+		var status = "{{user.userprofileinfo.status}}"
+		var pathname = window.location.pathname;
+		var ugroup = "{{user.userprofileinfo.ugroup}}"
+
+		$(document).ready(function () {
+
+			if (ugroup == '1') {
+				connectChannels()
+			}
+			if (status == '0') {
+				$("#toggle-status").bootstrapToggle('off')
+			} else {
+				$("#toggle-status").bootstrapToggle('on')
+			}
+			console.log(status);
+			if (status) {
+				var header = document.getElementById("menu-list");
+				if (header != null) {
+					var btns = header.getElementsByTagName("a");
+					for (var i = 0; i < btns.length; i++) {
+						if (pathname == '/tutor/' || pathname == '/tutor' || pathname == '/tutee/' || pathname ==
+							'/tutee') {
+							btns[0].classList.add('active')
+						} else {
+							if (btns[i].href.includes(pathname)) {
+								btns[i].classList.add('active')
+							} else {
+								btns[i].classList.remove('active')
+							}
+						}
+					}
+				}
+			}
+			$('#toggle-status').change(function () {
+				var status = $(this).prop('checked') ? 1 : 0;
+
+				$.get(`${window.location.origin}/tutor/status/${status}`, function (data, status) {
+
+					if (data.status) {
+						$("#token-message").html(data.msg);
+					} else {
+						$("#token-message").html("Not yet answered");
+					}
+				});
+			});
+
+			$("#chat-room .chat-header").click(function () {
+				$("#chat-room .chat-body").slideToggle("400");
+			});
+
+			$("header li a:not(.border-btn),footer .menu li a").click(function(e){
+				e.preventDefault();
+				var attr = $(this).attr("href");
+				$('html, body').animate({
+					scrollTop: $(attr).offset().top - 50
+				}, 500);
+			});
+
+			
+			// if(window.location.hash == "#tutee"){
+			// 	alert("11");
+			// 	$('a[href="#signup-wrapper"]').click();
+			// }
+
+			// if(window.location.hash == "#tutee"){
+			// 	$('#tutee-text').trigger("click");
+			// }
+
+			// $("#question-form").validate({
+			// 	rules: {
+			// 		subject: {
+			// 		required: true,
+			// 		},
+			// 		title: {
+			// 		required: true,
+			// 		},
+			// 		desc: {
+			// 		required: true,
+			// 		},
+			// 		attachments: {
+			// 		required: true,
+			// 		accept:"pdf,doc,docx"
+			// 		},
+			// 		remarks: {
+			// 		required: true,
+			// 		},
+			// 		difficulty: {
+			// 		required: true,
+			// 		}
+			// 	},
+			// 	messages: {
+			// 		subject: {
+			// 		required: "Please enter Subject",
+			// 		required: "Please enter Subject",
+			// 		},
+			// 		title: {
+			// 		required: "Please enter Title",
+			// 		},
+			// 		desc: {
+			// 		required: "Please enter Description",
+			// 		},
+			// 		attachments: {
+			// 		required: "Please upload any document",
+			// 		accept:"Please upload only pdf,doc,docx"
+			// 		},
+			// 		remarks: {
+			// 		required: "Please enter remarks",
+			// 		},
+			// 		difficulty: {
+			// 		required: "Please enter difficulty",
+			// 		}
+			// 	},
+			// 	submitHandler: function (form) {
+			// 		console.log('valid form submitted');
+			// 		return false;
+			// 		}
+			// });
+
+
+		});
+
+		function connectChannels() {
+			const webSocketBridge = new channels.WebSocketBridge();
+
+			webSocketBridge.connect("/notifications/");
+			webSocketBridge.listen(function (action, stream) {
+				console.log("RESPONSE:", action);
+				if (action.type == "new_question") {
+
+					swal({
+							title: action.event + " " + action.subject,
+							text: action.title,
+							icon: "info",
+							buttons: ["Reject", "Accept"],
+							dangerMode: true,
+							timer: 30000
+						})
+						.then(name => {
+							if (!name) throw null;
+							return fetch(
+								`${window.location.origin}/tutor/accept_question/${action.qid}`);
+						})
+						.then(results => {
+							return results.json();
+						})
+						.then(data => {
+
+							if (!data) {
+								swal("Could not accept the question!");
+							} else {
+								let page = window.location.pathname;
+								if (page == '/tutor/' || page == '/tutor') {
+									var questCard = qBody(action);
+									$("#notifylist").append(questCard);
+								}
+
+								swal({
+									title: data.msg,
+									text: String(data.qid),
+									icon: data.status ? 'success' : 'error',
+									timer: 3000
+								});
+							}
+
+						})
+						.catch(err => {
+							if (err) {
+								swal("Oh noes!", "The request failed!", "error");
+							} else {
+								swal.stopLoading();
+								swal.close();
+							}
+						});
+
+				} else if (action.type == "incoming_call") {
+
+					swal({
+							title: action.event,
+							text: action.room_name + " " + action.tutee_id,
+							icon: "info",
+							buttons: ["Reject", "Accept"],
+							dangerMode: true,
+						})
+						.then(name => {
+							generateToken(action.room_name, action.call_type);
+							$("#videocall-modal").show();
+						})
+						.catch(err => {
+							if (err) {
+								swal("Oh noes!", "The request failed!", "error");
+							} else {
+								swal.stopLoading();
+								swal.close();
+
+							}
+						});
+
+				}
+
+			});
+			document.ws = webSocketBridge; /* for debugging */
+		};
+
+		let globalRoom;
+
+
+		function videoCallConnect(token, roomName, call_type) {
+			Video.connect(token, {
+				name: roomName,
+				video: call_type == 'video',
+				audio: true
+			}).then(room => {
+				console.log('Connected to Room "%s"', room.name);
+				globalRoom = room;
+
+				room.participants.forEach(participantConnected);
+				room.on('participantConnected', participantConnected);
+
+				room.on('participantDisconnected', participantDisconnected);
+				room.once('disconnected', error => room.participants.forEach(participantDisconnected));
+			})
+			if (call_type == 'video') {
+				Video.createLocalVideoTrack().then(track => {
+					const localMediaContainer = document.getElementById('local-media');
+					localMediaContainer.innerHTML = "";
+					localMediaContainer.appendChild(track.attach());
+				});
+			}
+		}
+
+		function handleTrackDisabled(track) {
+			track.on('disabled', () => {
+				/* Hide the associated <video> element and show an avatar image. */
+				if (track.kind == "audio") {
+					$("#audio-status").text("Audio Off")
+				}
+				if (track.kind == "video") {
+					$("#video-status").text("Video Off")
+				}
+
+			});
+		}
+
+		function handleTrackEnabled(track) {
+			track.on('enabled', () => {
+				/* Hide the avatar image and show the associated <video> element. */
+
+				if (track.kind == "audio") {
+					$("#audio-status").text("Audio On")
+				}
+				if (track.kind == "video") {
+					$("#video-status").text("Video On")
+				}
+
+			});
+		}
+
+
+		function endCall() {
+			globalRoom.localParticipant.audioTracks.forEach(publication => {
+				console.log(publication);
+				publication.track.stop();
+				publication.unpublish();
+			});
+			globalRoom.localParticipant.videoTracks.forEach(publication => {
+				console.log(publication);
+				publication.track.stop();
+				publication.unpublish();
+			});
+			// To disconnect from a Room
+			globalRoom.disconnect();
+			$("#videocall-modal").hide();
+		}
+
+		function muteAudio() {
+			globalRoom.localParticipant.audioTracks.forEach(publication => {
+				publication.track.disable();
+			});
+		}
+
+		function unMuteAudio() {
+			globalRoom.localParticipant.audioTracks.forEach(publication => {
+				publication.track.enable();
+			});
+		}
+
+		function disableVideo() {
+			globalRoom.localParticipant.videoTracks.forEach(publication => {
+				publication.track.disable();
+			});
+		}
+
+		function enableVideo() {
+			globalRoom.localParticipant.videoTracks.forEach(publication => {
+				publication.track.enable();
+			});
+		}
+
+		function participantConnected(participant) {
+			console.log('Participant "%s" connected', participant.identity);
+
+			const div = document.createElement('div');
+			div.id = participant.sid;
+			div.innerText = participant.identity;
+
+			participant.on('trackSubscribed', track => trackSubscribed(div, track));
+			participant.on('trackUnsubscribed', trackUnsubscribed);
+
+			participant.tracks.forEach(publication => {
+				if (publication.isSubscribed) {
+					trackSubscribed(div, publication.track);
+					handleTrackDisabled(publication.track);
+					handleTrackEnabled(publication.track);
+				}
+				publication.on('subscribed', handleTrackDisabled);
+				publication.on('subscribed', handleTrackEnabled);
+
+			});
+
+			document.getElementById("video-call").appendChild(div);
+		}
+
+		function participantDisconnected(participant) {
+			console.log('Participant "%s" disconnected', participant.identity);
+			document.getElementById(participant.sid).remove();
+			$("#audio-status").text("Audio Off")
+			$("#video-status").text("Video Off")
+			$("#call-events").text("Left the Call")
+		}
+
+		function trackSubscribed(div, track) {
+			div.appendChild(track.attach());
+		}
+
+		function trackUnsubscribed(track) {
+			track.detach().forEach(element => element.remove());
+		}
+
+		function generateToken(roomName, call_type) {
+			$.get(`${window.location.origin}/chat/twilio/token/${roomName}`, function (data, status) {
+				if (data.status) {
+					videoCallConnect(data.token, roomName, call_type);
+					$("#token-message").html(data.msg);
+				} else {
+					$("#token-message").html("Not yet answered");
+				}
+			});
+		}
+	</script>
+	{% block custom_Script %}
+	{% endblock %}
+
+</body>
+
+</html>

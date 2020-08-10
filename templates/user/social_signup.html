@@ -1,0 +1,132 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block nav %}
+
+{% endblock %}
+
+{% block nav2 %}
+
+{% endblock %}
+
+{% block content %}
+<section id="signin-page" class="section-container">
+	<div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 mb-4 pt-md-5">
+					<h1 class="mb-4"><strong class="d-block">Hai {{ user.first_name }} , welcome to</strong> OfficeHours
+					</h1>
+					<p class="mb-5">Enter details and complete signup</p>
+
+					<div class="tutor-wrapper">
+						<a href="#tutor" class="mr-md-5 d-inline-block">
+							<div class="tutor-list selected">
+								<img src="{% static 'images/tutor.png'%}" class="img-fluid mb-4" alt="">
+								<span class="d-block mb-1">Tutor</span>
+							</div>
+						</a>
+						<a href="#tutee" class=" d-inline-block">
+							<div class="tutor-list">
+								<img src="{% static 'images/tutee.png'%}" class="img-fluid mb-4" alt="">
+								<span class="d-block mb-1">Tutee</span>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-5 mb-4">
+
+					<div class="login-wrapper" style="display:block">
+						<h4 class="mb-4 pb-3">Sign Up</h4>
+						<form action="{% url 'signup' %}" method="post">
+							{% csrf_token %}
+							<input class="ugroup" type="hidden" name="ugroup" value='1'>
+							<input class="ss" type="hidden" name="ssign" value='1'>
+
+							<div class="form-group mb-3">
+								<input type="text" id="name" name="name" value='{{user.first_name}}{{user.lastname}}'
+									class="form-control" placeholder="Full Name">
+							</div>
+							<div class="form-group mb-3">
+								<select name="country" id="country" class="form-control" required>
+									<option value="">Country</option>
+									<option value="India">India</option>
+								</select>
+							</div>
+							<div class="form-group mb-3">
+								<input type="email" id="email" required name="email" value='{{user.username}}' disabled
+									class="form-control" placeholder="Email">
+							</div>
+							<div class="form-group mb-3">
+								<input type="password" id="password" required name="password" required
+									class="form-control" placeholder="Password">
+							</div>
+							<div class="certificate-wrapper">
+								<div class="form-group mb-3">
+									<input type="hidden" id="expertise" name="expertise" class="form-control"
+										placeholder="Subjects" required>
+								</div>
+								<div class="form-group mb-3 expertise-select-class">
+									<select name="expertise-select" id="expertise-select" class="selectpicker"
+										placeholder="Subject" multiple data-live-search="true">
+										{% for sub in data.subject %}
+										<option value="{{sub.name}}">{{sub.name}}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<div class="form-group mb-3 class-class">
+									<input type="text" id="class" name="class" value='{{ data.request.class }}'
+										class="form-control" placeholder="Class">
+								</div>
+							</div>
+							<!--
+							<a href="javascript:" class="add-btn mb-3">
+								<img src="{% static 'images/add.png'%}" class="img-fluid" alt="">
+							</a>
+							<div class="form-group mb-3">
+								<select name="degree" id="degree" class="form-control">
+									<option value="">Current / Highest Degree</option>
+									<option value="India">India</option>
+								</select>
+							</div>
+							<div class="form-group mb-3">
+								<input type="text" id="university" name="university" class="form-control" placeholder="Current / University of Highest Degree ">
+							</div> -->
+
+							<div class="agree d-flex mb-3">
+								<input type="checkbox" id="agree1" class="mr-2 mt-1" required>
+								<label for="agree1">By signing up, you agree to our *Terms of Use* and *Privacy
+									Policy*.</label>
+							</div>
+							<input type="submit" class="btn blue-btn btn-block" value="Sign Up">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}
+{% block custom_Script %}
+<script>
+	$(document).ready(function () {
+		$(".class-class").hide();
+
+		$(".tutor-wrapper a").click(function (event) {
+			if ($('.ugroup').val() == 2) {
+				$('.ugroup').val(1);
+				$(".class-class").hide();
+				$('.expertise-select-class').show();
+			} else {
+				$('.ugroup').val(2);
+				$(".class-class").show();
+				$('.expertise-select-class').hide();
+			}
+			$(".tutor-list").removeClass("selected");
+			$(this).find(".tutor-list").addClass("selected");
+		});
+	});
+</script>
+
+{% endblock %}

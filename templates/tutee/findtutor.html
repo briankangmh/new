@@ -1,0 +1,126 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <div class="row align-items-center justify-content-end no-gutters">
+            <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+                <a href="/">
+                    <img src="{% static 'images/logo.png'%}" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background: rgb(248, 249, 255);
+    }
+</style>
+<section id="account-page" class="admin-container">
+    <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+        <!-- <div class="container"> -->
+        <div class="row">
+            <div class="col-md-12 content-wrapper mb-4">
+                <div class="col-md-6 mb-4">
+                    <form action="{% url 'find_tutor' %}" method='post' enctype="multipart/form-data">
+                        {%csrf_token%}
+                        <div class="input-group mb-2">
+                            <!-- <input name="search_query" id="search-query" type="text" class="form-control"
+                                    placeholder="Question" aria-label="Question" aria-describedby="basic-addon2"> -->
+                            {% if data.subjects %}
+                            <select name="subject" id="subject" class="form-control" placeholder="Subject">
+                                <option value="{{All}}">All</option>
+                                {% for sub in data.subjects %}
+                                <option value="{{sub.name}}">{{sub.name}}</option>
+                                {% endfor %}
+                            </select>
+                            {% endif %}
+                            <div class="input-group-append">
+                                <button class="btn btn-outline-secondary" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {% if data.tutors  %}
+            {% for tutor in data.tutors %}
+            <div class="col-md-4 content-wrapper mb-4">
+                <div class="profile-wrapper">
+                    <img width="60" style="margin:auto;display: block;" src="
+                                {% if  'http' in tutor.photo.url %}
+                                {{tutor.photo}}
+                                {% elif not tutor.photo %}
+                                {{tutor.photo.url}}
+                                {% else %}
+                                {% static 'images/admin.png'%}
+                                {% endif  %}
+                                ">
+                    <div class="detail-wrapper my-3">
+                        <h5><strong>Name:</strong> {{tutor.user.first_name}}</h5>
+                        <h5><strong>Subject:</strong> {{tutor.user.userprofileinfo.subject}}</h5>
+                        <h5><strong>Rating:</strong> 5</h5>
+                        <h5><strong>Status:</strong>
+                            {% if tutor.status == '1' and tutor.ws_status == '1' %}
+                            <span class="status">Online <span class="green-dot ml-2"></span></span>
+                            {% else %}
+                            <span class="status">Offline <span class="red-dot ml-2"></span></span> {%endif%}
+                        </h5>
+                    </div>
+                    <div style="text-align: center">
+                        <a href="/tutee/viewtutor/{{tutor.user.id}}" class="btn btn-primary">View Tutor</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            {% else %}
+            <p class="text-center">None</p>
+            {% endif %}
+
+        </div>
+
+        <!-- </div> -->
+    </div>
+</section>
+{% endblock %}
+
+{% block custom_Script %}
+<script>
+    $(document).ready(function () {
+
+        window.setTimeout(function () {
+            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                $(this).remove();
+            });
+
+        }, 2000);
+
+    });
+
+    function searchTutor() {
+        let search_query = $("#subject").val()
+
+        let data = {
+            'search_query': search_query,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
+        };
+        $.post(`${window.location.origin}/tutee/question/search`, data, function (data, status) {
+
+            if (data.status) {
+                let questions = JSON.parse(data.questions);
+
+            } else {}
+        });
+
+    }
+</script>
+{% endblock %}

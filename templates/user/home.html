@@ -1,0 +1,392 @@
+{% extends "includes/base.html" %}
+{% load static %}
+{% block nav %}
+
+{% endblock %}
+
+{% block nav2 %}
+
+{% endblock %}
+
+{% block content %}
+<section id="home-page" class="content-page">
+	<div class="banner-wrapper section-container wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="row justify-content-center align-items-center" >
+				<div class="col-lg-7 pt-5">
+					<h1 class="mb-4"> Quality <span>Academic <br/>Answers for Free* </span></h1>
+					<h4 class="mb-5">In Real Time, from Real People.</h4>
+					<div class="help-wrapper mb-5">
+						<a href="/login#tutee" class="help-btn mr-5 mb-4">
+							<svg><use xlink:href="../../static/images/icons.svg#get-help"></use></svg>
+							<span class="d-block">Get Help</span>
+						</a>
+						<a href="/login#tutor" class="help-btn mb-4">
+							<svg><use xlink:href="../../static/images/icons.svg#help"></use></svg>
+							<span class="d-block">Help</span>
+						</a>
+					</div>
+					<div class="social-icons">
+						<ul>
+							<li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#facebook"></use></svg></a></li>
+							<li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#twitter"></use></svg></a></li>
+							<li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#instagram"></use></svg></a></li>
+						</ul>
+					</div>
+				</div>
+		    </div>
+		</div>
+	</div>
+	<div id="topics" class="trending-wrapper  wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="title-wrapper mb-4 d-flex justify-content-between">
+				<h3 class="mb-4"><span>Trending Topics </span></h3>
+				<div class="right-wrapper d-flex align-items-center mb-4">
+					<form action="javascript:">
+						<input type="search" class="form-control" placeholder="Search your subject">
+					</form>
+					<div class="navigation-wrapper ml-5">
+						<svg class="prev mr-4">
+							<use xlink:href="../../static/images/icons.svg#left-nav"></use>
+						</svg>
+						<svg class="next">
+							<use xlink:href="../../static/images/icons.svg#right-nav"></use>
+						</svg>
+					</div>
+				</div>
+			</div>
+			<div id="trending-carousel" class="owl-carousel">
+				<div class="item">
+					<div class="img-wrapper">
+						<img src="{% static 'images/trending-1.svg'%}" alt="" class="img-fluid">
+					</div>
+					<p>Computer Science</p>
+				</div>
+				<div class="item">
+					<div class="img-wrapper">
+						<img src="{% static 'images/trending-2.svg'%}" alt="" class="img-fluid">
+					</div>
+					<p>Algebra</p>
+				</div>
+				<div class="item">
+					<div class="img-wrapper">
+						<img src="{% static 'images/trending-3.svg'%}" alt="" class="img-fluid">
+					</div>
+					<p>Chemistry</p>
+				</div>
+				<div class="item">
+					<div class="img-wrapper">
+						<img src="{% static 'images/trending-4.svg'%}" alt="" class="img-fluid">
+					</div>
+					<p>Physics</p>
+				</div>
+				<div class="item">
+					<div class="img-wrapper">
+						<img src="{% static 'images/trending-5.svg'%}" alt="" class="img-fluid">
+					</div>
+					<p>Business Studies</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="works" class="work-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="row justify-content-between">
+				<div class="col-md-5 mb-4 pr-md-5 left-wrapper">
+					<h3 class="mb-4"><span>How It Works</span></h3>
+					<p class="mb-5">Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+					<a href="javascript:" class="btn blue-btn">Contact Us</a>
+				</div>
+				<div class="col-md-6 mb-4 pl-md-5">
+					<div class="d-flex justify-content-between list-wrapper active mb-4">
+						<div class="item-wrapper active">
+							<div class="round">
+								<span>1</span>
+							</div>
+						</div>
+						<div class="work-list active">
+							<h5 class="mb-3">Raise your question?</h5>
+							<p>Lorem ipsum is placeholder text commonly used in the graphic, print</p>
+							<span class="number">1</span>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between list-wrapper mb-4">
+						<div class="item-wrapper">
+							<div class="round">
+								<span>2</span>
+							</div>
+						</div>
+						<div class="work-list">
+							<h5 class="mb-3">Fast answers</h5>
+							<p>Lorem ipsum is placeholder text commonly used in the graphic, print</p>
+							<span class="number">2</span>
+						</div>
+					</div>
+					<div class="d-flex justify-content-between list-wrapper mb-4">
+						<div class="item-wrapper">
+							<div class="round">
+								<span>3</span>
+							</div>
+						</div>
+						<div class="work-list">
+							<h5 class="mb-3">Step-by-step Explanations</h5>
+							<p>Lorem ipsum is placeholder text commonly used in the graphic, print</p>
+							<span class="number">3</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="complete-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-3 col-sm-6 px-md-4">
+					<h1 class="mb-4">4800 +</h1>
+					<p>Stats- Queries resolved <br/>every minute  </p>
+				</div>
+				<div class="col-md-3 col-sm-6 px-md-4">
+					<h1 class="mb-4">50 +</h1>
+					<p>Stats- Queries resolved <br/>every minute  </p>
+				</div>
+				<div class="col-md-3 col-sm-6 px-md-4">
+					<h1 class="mb-4">100 + </h1>
+					<p>Stats- Queries resolved <br/>every minute  </p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="testimonial-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<div id="testimonial-carousel" class="owl-carousel">
+				<div class="item">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="img-wrapper">
+								<img src="{% static 'images/testimonial-1.png'%}" class="img-fluid" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<h3 class="mt-4 mb-5"><span>Testimonial</span></h3>
+							<div class="content pl-md-5">
+								<h5 class="mb-3"> Evan Dvorkin</h5>
+								<h6 class="mb-3">Designation here</h6>
+								<p>Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="img-wrapper">
+								<img src="{% static 'images/testimonial-1.png'%}" class="img-fluid" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<h3 class="mt-4 mb-5"><span>Testimonial</span></h3>
+							<div class="content pl-md-5">
+								<h5 class="mb-3"> Evan Dvorkin</h5>
+								<h6 class="mb-3">Designation here</h6>
+								<p>Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="img-wrapper">
+								<img src="{% static 'images/testimonial-1.png'%}" class="img-fluid" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<h3 class="mt-4 mb-5"><span>Testimonial</span></h3>
+							<div class="content pl-md-5">
+								<h5 class="mb-3"> Evan Dvorkin</h5>
+								<h6 class="mb-3">Designation here</h6>
+								<p>Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="img-wrapper">
+								<img src="{% static 'images/testimonial-1.png'%}" class="img-fluid" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<h3 class="mt-4 mb-5"><span>Testimonial</span></h3>
+							<div class="content pl-md-5">
+								<h5 class="mb-3"> Evan Dvorkin</h5>
+								<h6 class="mb-3">Designation here</h6>
+								<p>Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="item">
+					<div class="row align-items-center">
+						<div class="col-md-7">
+							<div class="img-wrapper">
+								<img src="{% static 'images/testimonial-1.png'%}" class="img-fluid" alt="">
+							</div>
+						</div>
+						<div class="col-md-5">
+							<h3 class="mt-4 mb-5"><span>Testimonial</span></h3>
+							<div class="content pl-md-5">
+								<h5 class="mb-3"> Evan Dvorkin</h5>
+								<h6 class="mb-3">Designation here</h6>
+								<p>Lorem ipsum is placeholder text commonly used in the graphic,  printLorem ipsum is placeholder text commonly used in the graphic, print Lorem ipsum is placeholder text commonly used in the graphic, printLorem ipsum is placeholder text commonly used in the graphic, print</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="feed-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container">
+			<h3 class="text-center mb-5 pb-4"><span>Social Media Feeds</span></h3>
+			<div class="row">
+				<div class="col-md-4 px-md-4 mb-4 mb-md-0">
+					<div class="img-wrapper">
+						<a href="javascript:">
+							<img src="{% static 'images/feed-1.png'%}" class="img-fluid w-100" alt="">
+							<div class="content">
+								<h5 class="mb-3">Lorem ipsum is placeholder text commonly used…</h5>
+								<p>2 days ago</p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4 px-md-4 mb-4 mb-md-0">
+					<div class="img-wrapper">
+						<a href="javascript:">
+							<img src="{% static 'images/feed-2.png'%}" class="img-fluid w-100" alt="">
+							<div class="content">
+								<h5 class="mb-3">Lorem ipsum is placeholder text commonly used…</h5>
+								<p>13 may 2020</p>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="col-md-4 px-md-4 mb-4 mb-md-0">
+					<div class="img-wrapper">
+						<a href="javascript:">
+							<img src="{% static 'images/feed-3.png'%}" class="img-fluid w-100" alt="">
+							<div class="content">
+								<h5 class="mb-3">Lorem ipsum is placeholder text commonly used…</h5>
+								<p>10 Jan 2020</p>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="expert-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<div class="container text-center">
+			<h3 class="mb-4">
+				<span>Are you an Expert? Looking for extra income?</span>
+			</h3>
+			<a href="javascript:" class="btn blue-btn">Get Started</a>
+		</div>
+	</div>
+  </section>
+
+  <footer class="footer wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <div class="container">
+        <a class="mb-5 logo-text d-inline-block">OfficeHours</a>
+        <div class="menu mb-5">
+            <ul>
+                <li><a href="javascript:">Home</a></li>
+                <!-- <li><a href="javascript:">About</a></li> -->
+                <li><a href="#topics">Topics</a></li>
+                <li><a href="#works">How It Works</a></li>
+                <li><a href="javascript:">FAQ</a></li>
+                <li><a href="javascript:">Terms & Conductions</a></li>
+                <li><a href="javascript:">Contact Us</a></li>
+            </ul>
+        </div>
+        <p class="mb-4">© 2020 OfficeHours.</p>
+        <div class="social-icons">
+            <ul>
+                <li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#facebook"></use></svg></a></li>
+                <li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#twitter"></use></svg></a></li>
+                <li><a href="javascript:"><svg><use xlink:href="../../static/images/icons.svg#instagram"></use></svg></a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}
+
+
+{% block custom_Script %}
+<script>
+	$(document).ready(function() {
+		$(".help-wrapper a").click(function(event) {
+			$(".help-wrapper a").removeClass("active");
+			$(this).addClass("active");
+		});
+
+		$('#trending-carousel').owlCarousel({
+           items : 6,
+           lazyLoad: true,
+           loop : true,
+           smartSpeed:1500,
+           autoplay: true,
+           autoplayTimeout:3000,
+           dots : false,
+           margin: 40,
+           responsive:{
+           	 0:{
+           	 	items: 3
+           	 },
+           	 768: {
+           	 	items: 4
+           	 },
+           	 1024:{
+           	 	items: 6
+           	 }
+           }
+   		});
+
+   		$('#testimonial-carousel').owlCarousel({
+           items : 1,
+           lazyLoad: true,
+           loop : true,
+           smartSpeed:1500,
+           // autoplay: true,
+           autoplayTimeout:3000,
+           dots : true,
+                   animateOut: 'fadeOut',
+        animateIn: 'fadeIn',
+	        touchDrag  : false,
+	        mouseDrag  : false
+   		});
+
+		$(".navigation-wrapper svg.prev").click(function(event) {
+			$('.navigation-wrapper svg').removeClass('active');
+			$(this).addClass('active');
+			$('#trending-carousel').trigger('prev.owl.carousel');
+		});
+
+		$(".navigation-wrapper svg.next").click(function(event) {
+			$('.navigation-wrapper svg').removeClass('active');
+			$(this).addClass('active');
+			$('#trending-carousel').trigger('next.owl.carousel');
+		});
+
+		$(".work-list").click(function(event) {
+			$(".list-wrapper").removeClass('active');
+			$(this).parent().addClass('active');
+			$(this).parents('.list-wrapper').nextAll().find('.item-wrapper').removeClass('active');
+			$(this).prev().addClass('active');
+		});
+	});
+</script>
+{% endblock %}

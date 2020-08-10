@@ -1,0 +1,237 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="row align-items-center justify-content-end no-gutters">
+      <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+        <a href="/">
+          <img src="{% static 'images/logo.png'%}" class="img-fluid">
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: rgb(248, 249, 255);
+  }
+</style>
+
+{% if data.success %}
+<div class="alert alert-success text-center" id="success-alert">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <strong>Updated</strong> Successfully.
+</div>
+{% endif %}
+
+<section id="account-page" class="admin-container">
+  <div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+    <!-- <div class="container"> -->
+    <div class="row">
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-header">
+            Wallet Balance
+          </div>
+          <div class="card-body">
+            <h6 id="wallet-balance">$ {{ user.userprofileinfo.wallet_balance }} USD</h6>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 mb-4">
+        <div class="card">
+          <div class="card-header">
+            Add Money to Wallet
+          </div>
+          <div class="card-body">
+            <div class="form-row align-items-center">
+
+              <div class="col-sm-6 my-2">
+                <label class="sr-only" for="inlineFormInputGroupAmount">Enter Amount</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div class="input-group-text">$</div>
+                  </div>
+                  <input type="text" class="form-control" id="inlineFormInputGroupAmount" placeholder="Enter Amount">
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="card-footer">
+            <div id="paypal-button-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-md-12 mb-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+              aria-selected="true">Wallet Transaction History</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+              aria-selected="false">Wallet Recharge History</a>
+          </li>
+
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+            <div class="account-info table-responsive" style="min-height: 500px !important;">
+
+              <h4 class="mb-5"></h4>
+              {% if data.transactions  %}
+
+              <table class="table table-striped border bg-white">
+                <thead>
+                  <tr>
+                    <th scope="col">From</th>
+                    <th scope="col">To</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Question ID</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Amount</th>
+                  </tr>
+                </thead>
+                {% for tx in data.transactions %}
+                <tr>
+                  <td>{{tx.from_user_id}} </td>
+                  <td>{{tx.to_user_id}} </td>
+                  <td>{{tx.tx_reason}} </td>
+                  <td>{{tx.qid}} </td>
+                  <td>{{tx.tx_type}} </td>
+                  <td>{{tx.amount}} </td>
+                </tr>
+
+                {% endfor %}
+              </table>
+              {% else %}
+              <p class="text-center">None</p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+            <div class="account-info" style="min-height: 500px !important;">
+
+              <h4 class="mb-5"></h4>
+              {% if data.pay_transactions  %}
+
+              <table class="table table-striped border bg-white">
+                <thead>
+                  <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Mode</th>
+                    <th scope="col">Transaction Id</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Currency</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                {% for tx in data.pay_transactions %}
+                <tr>
+                  <td>{{tx.id}} </td>
+                  <td>{{tx.pay_mode}} </td>
+                  <td>{{tx.txid}} </td>
+                  <td>{{tx.status}} </td>
+                  <td>{{tx.currency_code}} </td>
+                  <td>{{tx.amount}} </td>
+                  <td>{{tx.date_created}}</td>
+                </tr>
+
+                {% endfor %}
+              </table>
+              {% else %}
+              <p class="text-center">None</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- </div> -->
+  </div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script
+  src="https://www.paypal.com/sdk/js?client-id=Affd1_VtENYVB4rIVV46arbof52HNMKKSqkicnMhZa3d9PU9jSe2q8rq6qkuEznmvPHlz_qkW5UQU2-8&currency=USD">
+</script>
+
+<script>
+  function txComplete(resp, paymode) {
+
+    let txData = {
+      "create_time": resp.create_time,
+      "update_time": resp.update_time,
+      "status": resp.status,
+      "txid": resp.id,
+      "payer_name": resp.payer.name.given_name,
+      "payer_email": resp.payer.email_address,
+      "payer_id": resp.payer.payer_id,
+      "amount": resp.purchase_units[0].amount.value,
+      "currency_code": resp.purchase_units[0].amount.currency_code,
+      "pay_mode": paymode
+    }
+
+    let data = {
+      ...txData,
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    };
+    $.post(`${window.location.origin}/payment/add_money_to_wallet`, data, function (data, status) {
+      if (data.status) {
+        $("#wallet-balance").html('$' + data.wallet_balance + ' USD');
+        $("#base-wallet-balance").html('$' + data.wallet_balance + ' USD');
+      } else {}
+    });
+  }
+  // Render the PayPal button into #paypal-button-container
+  paypal.Buttons({
+
+    style: {
+      color: 'blue',
+      shape: 'pill',
+      label: 'pay',
+      height: 40
+    },
+
+    // Set up the transaction
+    createOrder: function (data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: $("#inlineFormInputGroupAmount").val()
+          }
+        }]
+      });
+    },
+
+    // Finalize the transaction
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        txComplete(details, 'paypal')
+        // Show a success message to the buyer
+        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+      });
+    }
+
+
+  }).render('#paypal-button-container');
+</script>
+{% endblock %}

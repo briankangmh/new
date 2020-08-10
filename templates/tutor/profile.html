@@ -1,0 +1,195 @@
+{% extends "includes/base.html" %}
+{% load static %}
+
+{% block header %}
+<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+	<div class="container">
+		<div class="row align-items-center justify-content-end no-gutters">
+			<div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
+				<a href="/">
+					<img src="{% static 'images/logo.png'%}" class="img-fluid">
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+{% endblock %}
+
+{% block content %}
+<style>
+	body {
+		background: rgb(248, 249, 255);
+	}
+</style>
+{% if success %}
+<div class="alert alert-success text-center" id="success-alert">
+	<button type="button" class="close" data-dismiss="alert">x</button>
+	<strong>Updated</strong>Successfully.
+</div>
+{% endif %}
+<section id="account-page" class="admin-container">
+	<div class="form-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
+		<!-- <div class="container"> -->
+			<div class="row">
+
+				<div class="col-md-12 content-wrapper mb-4">
+					<form action="{% url 'tutor_profile' %}" method="post" enctype="multipart/form-data">
+						{% csrf_token %}
+
+						<div class="profile-wrapper">
+							<div class="row">
+								<div class="col-md-6 mb-4">
+									<h2><img src="{% static 'images/account.png'%}" class="img-fluid mr-3 mb-2"
+											alt="">My Profile</h2>
+									<p>Update your OfficeHours Account Information</p>
+								</div>
+								<div class="col-md-6 mb-4 text-md-right">
+									<div class="img-wrapper mr-3">
+										<img src="{{ profile_pic }}" class="img-fluid" id="profimg" alt=""
+											style="width: 50px;">
+										<span class="remove">
+											<img src="{% static 'images/close.png'%}" class="img-fluid" alt="">
+										</span>
+									</div>
+									<div class="img-wrapper mr-3" style="top: 30%;">
+
+										<div class="upload-btn-wrapper">
+											<button class="btn line-btn">Upload a photo</button>
+											<input type="file" name="photo" id="profileimage" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="account-info">
+
+								<div class="row mb-3 information">
+									<div class="col-md-6 form-group mb-4">
+										<label for="gender" class="d-block mb-2">Gender</label>
+										<select name="gender" class="form-control" id="gender">
+											<option value="Male" {% if user.userprofileinfo.gender == "Male" %} selected
+												{% endif %}>Male
+											</option>
+											<option value="Female" {% if user.userprofileinfo.gender == "Female" %}
+												selected {% endif %}>
+												Female</option>
+										</select>
+									</div>
+									<div class="col-md-6 form-group mb-4">
+										<label for="name" class="d-block mb-2">Full Name</label>
+										<input type="text" id="name" class="form-control"
+											value="{{ user.first_name }} {{ user.last_name }} " readonly="">
+									</div>
+									<div class="col-md-6 form-group mb-4">
+										<label for="email" class="d-block mb-2">Email</label>
+										<input type="email" id="email" class="form-control mb-2"
+											value="{{ user.email }}" readonly="">
+										<a href="javascript:" class="d-block text-right">Edit</a>
+									</div>
+									<div class="col-md-6 form-group mb-4">
+										<label for="password" class="d-block mb-2">Change Password</label>
+										<input type="password" id="password" class="form-control mb-2"
+											value="1234567890" readonly="">
+										<a href="javascript:" class="d-block text-right">Edit</a>
+									</div>
+
+									<div class="col-md-6 form-group mb-4">
+										<input type="hidden" id="expertise" name="expertise" class="form-control"
+											placeholder="Subjects" value="{{user.userprofileinfo.subject}}" required>
+										<label for="name" class="d-block mb-2">Subject</label>
+										{% if subject %}
+										<select name="expertise-select" id="expertise-select" class="selectpicker"
+											placeholder="Subject" multiple data-live-search="true">
+											{% for sub in subject %}
+											<option {% if sub.name in user.userprofileinfo.subject %} selected
+												{% endif %} value="{{sub.name}}">{{sub.name}}</option>
+											{% endfor %}
+										</select>
+										{% endif %}
+									</div>
+
+									<div class="col-md-6">
+										<label for="details" class="d-block mb-4">Account Details</label>
+										<div class="detail-wrapper">
+											<div class="row mb-2">
+												<div class="col-md-6">
+													<p>Account number</p>
+												</div>
+												<div class="col-md-6">
+													<span>539338439859 <img src="{% static 'images/success.png'%}"
+															class="img-fluid ml-4" alt=""></span>
+												</div>
+											</div>
+											<div class="row mb-2">
+												<div class="col-md-6">
+													<p>IFSC Code</p>
+												</div>
+												<div class="col-md-6">
+													<span>HDFC0001</span>
+												</div>
+											</div>
+											<div class="row mb-2">
+												<div class="col-md-6">
+													<p>Name in Card </p>
+												</div>
+												<div class="col-md-6">
+													<span>Nicolas</span>
+												</div>
+											</div>
+											<div class="row mb-2">
+												<div class="col-md-6">
+													<p>Bank Name</p>
+												</div>
+												<div class="col-md-6">
+													<span>HDFC</span>
+												</div>
+											</div>
+
+										</div>
+										<a href="javascript:" class="d-block text-right">Other Account</a>
+									</div>
+								</div>
+								<button type="submit" class="btn transparent-btn selected">Save Changes</a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		<!-- </div> -->
+	</div>
+</section>
+
+{% endblock %}
+{% block custom_Script %}
+<script>
+	$(document).ready(function () {
+
+		window.setTimeout(function () {
+			$(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+				$(this).remove();
+			});
+		}, 2000);
+	});
+
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function (e) {
+				$('#profimg').attr('src', e.target.result);
+			}
+
+			reader.readAsDataURL(input.files[0]);
+		}
+	}
+
+	$('.selectpicker').selectpicker();
+	$(".selectpicker").change(function () {
+		$("#expertise").val($('.selectpicker').val().join(','));
+	});
+
+	$("#profileimage").change(function () {
+		readURL(this);
+	});
+</script>
+{% endblock %}
