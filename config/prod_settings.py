@@ -29,7 +29,7 @@ SECRET_KEY = 'z(4xn(9m4lr+f4bap_fh*)n#r^u8esmk0hkk01&7_@#)71odf4t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['demo.officehours.com', 'localhost', '127.0.0.1', '192.168.0.107', 'officehoursm8.herokuapp.com']
+ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', '192.168.0.107', ]
 
 
 # Application definition

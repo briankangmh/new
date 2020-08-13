@@ -29,8 +29,8 @@ SECRET_KEY = 'z(4xn(9m4lr+f4bap_fh*)n#r^u8esmk0hkk01&7_@#)71odf4t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['demo.officehours.com', 'localhost',
-                 '127.0.0.1', '192.168.0.107', 'officehoursm8.herokuapp.com']
+ALLOWED_HOSTS = [ 'localhost',
+                 '127.0.0.1', '192.168.0.107', ]
 
 
 # Application definition
@@ -103,46 +103,46 @@ TEMPLATES = [
 ASGI_APPLICATION = 'config.routing.application'
 WSGI_APPLICATION = 'config.wsgi.application'
 
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [("redis://:CWEsKpWi9jKkKqCx3Mp0iBcLbtB99w7t@redis-14099.c124.us-central1-1.gce.cloud.redislabs.com:14099")],
-        }
-    },
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'office-hours',
-                'CLIENT': {
-                    'host': str(os.environ.get('MONGODB_URL')),
-                    'authMechanism': 'SCRAM-SHA-1'
-                }
-    }
-}
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
 # CHANNEL_LAYERS = {
 #     'default': {
 #         'BACKEND': 'channels_redis.core.RedisChannelLayer',
 #         'CONFIG': {
-#             "hosts": [('127.0.0.1', 6379)],
-#         },
+#             "hosts": [("redis://:CWEsKpWi9jKkKqCx3Mp0iBcLbtB99w7t@redis-14099.c124.us-central1-1.gce.cloud.redislabs.com:14099")],
+#         }
 #     },
 # }
-
 
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
 #         'NAME': 'office-hours',
+#                 'CLIENT': {
+#                     'host': str(os.environ.get('MONGODB_URL')),
+#                     'authMechanism': 'SCRAM-SHA-1'
+#                 }
 #     }
 # }
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'my-mentor',
+    }
+}
 
 
 AUTHENTICATION_BACKENDS = (
@@ -193,6 +193,7 @@ USE_TZ = True
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'config/static')
 ]
@@ -242,13 +243,4 @@ TWILIO_AUTH_TOKEN = os.environ.get('TWILIO_AUTH_TOKEN', None)
 
 SITE_ID = 1
 
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# SMTP CONFIGURATION
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = "officehoursapi@gmail.com"
-EMAIL_HOST_PASSWORD = "officeAPI#2020"

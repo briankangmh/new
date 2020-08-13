@@ -205,7 +205,7 @@ def chat_token(request, device):
         # print("---------> token", token)
 
         # Create a unique endpoint ID for the device
-        endpoint = "OfficeHoursChatRoom:{0}:{1}".format(identity, device_id)
+        endpoint = "TitanChatRoom:{0}:{1}".format(identity, device_id)
         # print("endpoint", endpoint)
 
         if chat_service_sid:

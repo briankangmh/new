@@ -15,6 +15,6 @@ urlpatterns = [
     path('payment/', include('payment.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-admin.site.site_header = "OfficeHours Admin"
-admin.site.site_title = "OfficeHours Admin"
-admin.site.index_title = "OfficeHours Admin"
+admin.site.site_header = "Titan Admin"
+admin.site.site_title = "Titan Admin"
+admin.site.index_title = "Titan Admin"
