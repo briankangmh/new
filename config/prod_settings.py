@@ -29,7 +29,7 @@ SECRET_KEY = 'z(4xn(9m4lr+f4bap_fh*)n#r^u8esmk0hkk01&7_@#)71odf4t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [ 'localhost', '127.0.0.1', '192.168.0.107', ]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.0.107', ]
 
 
 # Application definition
@@ -57,7 +57,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware', 
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -100,24 +100,24 @@ CHANNEL_LAYERS = {
 # DATABASES = {
 #        'default': {
 #            'ENGINE': 'djongo',
-#            'NAME': 'office-hours',
+#            'NAME': 'titan',
 #        }
 # }
 
 DATABASES = {
-            'default': {
-                'ENGINE': 'djongo',
-                'NAME': 'office-hours',
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'titan',
                 'CLIENT': {
                     'host': str(os.environ.get('MONGODB_URL')),
                     'authMechanism': 'SCRAM-SHA-1'
                 }
-            }
     }
+}
 
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.facebook.FacebookOAuth2',
-     'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOpenId',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.google.GoogleOAuth',
     'django.contrib.auth.backends.ModelBackend',
@@ -162,10 +162,10 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-os.path.join(BASE_DIR, 'config/static')
+    os.path.join(BASE_DIR, 'config/static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
@@ -174,9 +174,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'QQHE0VI4LskBL249PugBzpB5'
 
 SOCIAL_AUTH_FACEBOOK_KEY = '677357769472254'
 SOCIAL_AUTH_FACEBOOK_SECRET = '990f1c685f85fec0da95db762b160c66'
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email',]
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id,name,email,picture',}
-SOCIAL_AUTH_FIELD_SELECTORS = ['email-address',]
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', ]
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+    'fields': 'id,name,email,picture', }
+SOCIAL_AUTH_FIELD_SELECTORS = ['email-address', ]
 SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
 FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
@@ -190,7 +191,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social.pipeline.social_auth.associate_user',
     'social.pipeline.social_auth.load_extra_data',
     'social.pipeline.user.user_details',
-    'users.pipeline.get_avatar', 
+    'users.pipeline.get_avatar',
 )
 
 # Twilio config

@@ -115,7 +115,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',
-#         'NAME': 'office-hours',
+#         'NAME': 'titan',
 #                 'CLIENT': {
 #                     'host': str(os.environ.get('MONGODB_URL')),
 #                     'authMechanism': 'SCRAM-SHA-1'
@@ -140,7 +140,7 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'my-mentor',
+        'NAME': 'titan',
     }
 }
 

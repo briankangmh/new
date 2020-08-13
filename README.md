@@ -4,11 +4,11 @@ Install Anaconda
 https://docs.anaconda.com/anaconda/install/windows/
 
 ```console
-conda create --name officehours python=3.6
+conda create --name titan python=3.6
 
-conda activate officehours
+conda activate titan
 
-cd git/officehours
+cd git/titan
 
 pip install -r requirements.txt
 
