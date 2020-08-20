@@ -1,26 +1,7 @@
 {% extends "includes/base.html" %}
 {% load static %}
 
-{% block header %}
-<header class="header-account wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.1s">
-  <div class="container">
-    <div class="row align-items-center justify-content-end no-gutters">
-      <div class="col-auto logo-wrapper wow fadeIn" data-wow-duration="0.7s" data-wow-delay="0.3s">
-        <a href="/">
-          <img src="{% static 'images/logo.png'%}" class="img-fluid">
-        </a>
-      </div>
-    </div>
-  </div>
-</header>
-{% endblock %}
-
 {% block content %}
-<style>
-  body {
-    background: rgb(248, 249, 255);
-  }
-</style>
 
 {% if data.success %}
 <div class="alert alert-success text-center" id="success-alert">
