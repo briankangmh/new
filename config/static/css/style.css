@@ -19,17 +19,6 @@ body {
   color: #fff;
 }
 
-.btn.btn-primary {
-  color: #fff;
-  background-color: #2672b1;
-  border-color: #2671b1;
-}
-
-.btn.btn-primary:hover {
-  color: #fff;
-  background-color: #278fe8a6;
-  border-color: #278fe8a6;
-}
 
 .btn.transparent-btn {
   background: rgb(255, 255, 255);
