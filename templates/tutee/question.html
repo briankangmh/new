@@ -20,9 +20,10 @@
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">Enter Details for the Question</h4>
+
                 <form id="question-form" action="{% url 'tutee_question' %}" method='post'
                 enctype="multipart/form-data">
-
+                {%csrf_token%}
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">Subject</label>
                     {% if data.subject %}
@@ -104,100 +105,25 @@
                       </div> -->
                 
                   <div class="form-group">
-                    <label for="attachments">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    <label for="Remarks">Remarks</label>
+                    <input type="text" id="remarks" name="remarks" class="form-control" value="" required>
                   </div>
                   
                   <div class="form-group">
-                    <label for="exampleInputConfirmPassword1">Confirm Password</label>
-                    <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                    <label for="difficulty">Difficulty(1-5)</label>
+                    <input type="number" min="1" max="5" id="difficulty" name="difficulty" class="form-control"  value="" required>
                   </div>
-                  <div class="form-check form-check-flat form-check-primary">
-                    <label class="form-check-label">
-                      <input type="checkbox" class="form-check-input"> Remember me </label>
-                  </div>
+                
                   <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
-                  <button class="btn btn-light">Cancel</button>
                 </form>
               </div>
             </div>
           </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 content-wrapper mb-4">
-
-                <div class="profile-wrapper">
-                    <div class="row">
-                        <div class="col-md-6 mb-4">
-                            <h2>Enter Details for the Question</h2>
-
-                        </div>
-
-                    </div>
-                    <div class="account-info">
-                        <form id="question-form" action="{% url 'tutee_question' %}" method='post'
-                            enctype="multipart/form-data">
-                            {%csrf_token%}
-                            <div class="row mb-3 information">
-
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Subject</label>
-                                    {% if data.subject %}
-                                    <select name="subject" class="form-control subject1" placeholder="Subject" required>
-                                        <option value="">Select Subject</option>
-                                        <!-- <option value="Maths" {% if data.request.expertise %} selected {%endif%} >Maths</option> -->
-                                        {% for sub in data.subject %}
-
-                                        <option value="{{sub.name}}">{{sub.name}}</option>
-                                        {% endfor %}
-
-                                        <!-- <option value="Physics" {% if data.request.expertise %} selected {%endif%} >Physics</option>
-                                                <option value="English" {% if data.request.expertise %} selected {%endif%} >English</option> -->
-                                    </select>
-
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Title</label>
-                                    <input type="text" id="title" name="title" class="form-control" value="" required>
-                                </div>
-
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Description</label>
-                                    <textarea id="desc" name="desc" class="form-control" required></textarea>
-                                </div>
-
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Attachments (if any)</label>
-                                    <div class="upload-btn-wrapper">
-                                        <button class="btn line-btn">Upload</button>
-                                        <input name="attachments" id="uploadBtn" type="file" class="upload"
-                                            accept="image/*, video/* , jpg, .pdf, .doc" multiple="multiple" />
-                                    </div>
-                                    <div id="upload_prev"></div>
-
-                                </div>
-
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Remarks</label>
-                                    <input type="text" id="remarks" name="remarks" class="form-control" value=""
-                                        required>
-                                </div>
-
-                                <div class="col-md-8 form-group mb-4">
-                                    <label for="name" class="d-block mb-2">Difficulty(1-5)</label>
-                                    <input type="number" min="1" max="5" id="difficulty" name="difficulty"
-                                        class="form-control" value="" required>
-                                </div>
 
 
-                            </div>
-                    </div>
-                    <button type="submit" class="btn transparent-btn selected">Save</a>
-                        </form>
-                </div>
-            </div>
-        </div>
+
+      
 
         <!-- </div> -->
     </div>
