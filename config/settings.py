@@ -30,7 +30,7 @@ SECRET_KEY = 'z(4xn(9m4lr+f4bap_fh*)n#r^u8esmk0hkk01&7_@#)71odf4t'
 DEBUG = True
 
 ALLOWED_HOSTS = [ 'localhost',
-                 '127.0.0.1', '192.168.0.107', ]
+                 '127.0.0.1', '192.168.0.107', 'titandemo.herokuapp.com' ]
 
 
 # Application definition
@@ -66,7 +66,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
+    # 'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,46 +103,46 @@ TEMPLATES = [
 ASGI_APPLICATION = 'config.routing.application'
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-#         'CONFIG': {
-#             "hosts": [("redis://:CWEsKpWi9jKkKqCx3Mp0iBcLbtB99w7t@redis-14099.c124.us-central1-1.gce.cloud.redislabs.com:14099")],
-#         }
-#     },
-# }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'titan',
-#                 'CLIENT': {
-#                     'host': str(os.environ.get('MONGODB_URL')),
-#                     'authMechanism': 'SCRAM-SHA-1'
-#                 }
-#     }
-# }
-
-# Database
-# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
-
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-        },
+            "hosts": [("redis://:CWEsKpWi9jKkKqCx3Mp0iBcLbtB99w7t@redis-14099.c124.us-central1-1.gce.cloud.redislabs.com:14099")],
+        }
     },
 }
-
 
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',
         'NAME': 'titan',
+                'CLIENT': {
+                    'host': str(os.environ.get('MONGODB_URL')),
+                    'authMechanism': 'SCRAM-SHA-1'
+                }
     }
 }
+
+# Database
+# https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#         'CONFIG': {
+#             "hosts": [('127.0.0.1', 6379)],
+#         },
+#     },
+# }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'djongo',
+#         'NAME': 'titan',
+#     }
+# }
 
 
 AUTHENTICATION_BACKENDS = (
