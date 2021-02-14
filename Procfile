@@ -1,2 +1,2 @@
 release: python manage.py migrate --noinput
-web: daphne config.asgi --log-file -
+web: daphne -p $PORT config.asgi:application -b 0.0.0.0
