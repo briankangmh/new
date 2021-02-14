@@ -48,13 +48,17 @@
             </a>
           </div>
         </div>
-        <div id="signin-wrapper" class="container-scroller active">
+        <div class="container-scroller" id="signin-wrapper">
           <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth">
               <div class="row flex-grow">
                 <div class="col-lg-12 mx-auto">
                   <div class="auth-form-light text-left p-5">
-                    <h6 class="auth-link text-black">Login</h6>
+                    <div class="brand-logo">
+                      <img src="../../assets/images/logo.svg" />
+                    </div>
+
+                    <h6 class="font-weight-light">Login.</h6>
                     <form class="pt-3" action="{% url 'login' %}" method="post">
                       {% csrf_token %}
                       <input
@@ -91,43 +95,22 @@
                           required
                         />
                       </div>
-                      <div class="mb-4">
-                        <div class="form-check">
-                          <label class="form-check-label text-muted">
-                            <input
-                              type="checkbox"
-                              id="agree1"
-                              required
-                              class="form-check-input"
-                            />
-                            I agree to all Terms & Conditions
-                          </label>
-                        </div>
-                      </div>
+
                       <div
                         class="my-2 d-flex justify-content-between align-items-center"
                       >
+                        <div class="form-check">
+                          <label class="form-check-label text-muted">
+                            <input type="checkbox" class="form-check-input" />
+                            Keep me signed in
+                          </label>
+                        </div>
                         <a
                           href="{%url 'reset_password' %}"
                           class="auth-link text-black"
                           >Forgot password?</a
                         >
                       </div>
-                      <div class="mt-3">
-                        <input
-                          type="submit"
-                          class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-                          value="Login"
-                        />
-                      </div>
-                      <div class="text-center mt-4 font-weight-light">
-                        Don't have an account?
-                        <a href="#signup-wrapper" class="text-primary"
-                          >Create</a
-                        >
-                      </div>
-
-                      <br />
                       <div class="mb-2">
                         <button
                           type="button"
@@ -137,124 +120,11 @@
                           facebook
                         </button>
                       </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="signup-wrapper" class="container-scroller">
-          <div class="container-fluid page-body-wrapper full-page-wrapper">
-            <div class="content-wrapper d-flex align-items-center auth">
-              <div class="row flex-grow">
-                <div class="col-lg-12 mx-auto">
-                  <div class="auth-form-light text-left p-2">
-                    <h6 class="auth-link text-black">Signup</h6>
-
-                    <div class="brand-logo"></div>
-
-                    <form
-                      class="pt-4"
-                      action="{% url 'signup' %}"
-                      method="post"
-                    >
-                      {% csrf_token %}
-                      <input
-                        class="ugroup"
-                        type="hidden"
-                        name="ugroup"
-                        value="1"
-                      />
-                      <input class="ss" type="hidden" name="ssign" value="2" />
-                      {% if data.error %}
-                      <h5 class="mb-4 text-center text-danger">
-                        {{ data.error }}
-                      </h5>
-                      {% endif %} {% if data.success %}
-                      <h5 class="mb-4 text-center text-success">
-                        {{ data.success }}
-                      </h5>
-                      {% endif %}
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value="{{ data.request.name }}"
-                          class="form-control form-control-lg"
-                          placeholder="Username"
-                          required
-                        />
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="email"
-                          placeholder="Email"
-                          id="email"
-                          name="email"
-                          value="{{ data.request.email }}"
-                          class="form-control form-control-lg {% if data.request.email %} text-danger {%endif%}"
-                          required
-                        />
-                      </div>
-                      <div class="form-group">
-                        <select
-                          class="form-control form-control-lg"
-                          id="country"
-                          name="country"
+                      <div class="text-center mt-4 font-weight-light">
+                        Don't have an account?
+                        <a href="#signup-wrapper" class="text-primary"
+                          >Create</a
                         >
-                          <option>Country</option>
-                          <option
-                            value="India"
-                            {%
-                            ifdata.request.country
-                            %}
-                            selected
-                            {%
-                            endif
-                            %}
-                          >
-                            India
-                          </option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <input
-                          type="password"
-                          name="password"
-                          class="form-control form-control-lg"
-                          id="password"
-                          placeholder="Password"
-                          required
-                        />
-                      </div>
-                      <div class="form-group">
-                        <select
-                          name="expertise"
-                          id="expertise-select"
-                          placeholder="Subject"
-                          multiple
-                          data-live-search="true"
-                          class="form-control form-control-lg"
-                        >
-                          {% for sub in data.subject %}
-                          <option value="{{sub.name}}">{{sub.name}}</option>
-                          {% endfor %}
-                        </select>
-                      </div>
-
-                      <div class="form-group">
-                        <input
-                          type="text"
-                          id="class"
-                          name="class"
-                          value="{{ data.request.class }}"
-                          class="form-control form-control-lg"
-                          placeholder="Class"
-                          required
-                        />
                       </div>
                       <div class="mb-4">
                         <div class="form-check">
@@ -271,26 +141,24 @@
                       </div>
                       <div class="mt-3">
                         <input
-                          class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
                           type="submit"
-                          value="Sign Up"
+                          class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
+                          value="Login"
                         />
                       </div>
-                      <div class="text-center mt-4 font-weight-light">
-                        Already have an account?
-                        <a href="#signin-wrapper" class="text-primary">Login</a>
-                      </div>
                     </form>
-                    <!-- </div> -->
                   </div>
                 </div>
               </div>
-              <!-- </div> -->
             </div>
+            <!-- content-wrapper ends -->
+          </div>
+          <!-- page-body-wrapper ends -->
+        </div>
             <!-- content-wrapper ends -->
             <!-- </div> -->
             <!-- page-body-wrapper ends -->
-          </div>
+    </div>
         </div>
       </div>
     </div>
@@ -306,7 +174,7 @@
   	{%if data.request.email %}
   	$(".login").removeClass("selected");
   	$('.signup').addClass("selected");
-  	$(".container-scroller").removeClass('active');
+  	$(".login-wrapper").removeClass('active');
   	$("#signup-wrapper").addClass('active');
   	{% endif %}
 
@@ -330,7 +198,7 @@
   		var attribute = $(this).attr("href");
   		$(".button-wrapper a").removeClass("selected");
   		$(this).addClass("selected");
-  		$(".container-scroller").removeClass('active');
+  		$(".login-wrapper").removeClass('active');
   		$(".form-wrapper").find(attribute).addClass('active');
   	});
 
@@ -339,7 +207,7 @@
   		var attribute = $(this).attr("href");
   		$(".login").removeClass("selected");
   		$('.signup').addClass("selected");
-  		$(".container-scroller").removeClass('active');
+  		$(".login-wrapper").removeClass('active');
   		$(".form-wrapper").find(attribute).addClass('active');
   	});
   	$(".loginwrap").click(function (event) {
@@ -347,7 +215,7 @@
   		var attribute = $(this).attr("href");
   		$(".signup").removeClass("selected");
   		$('.login').addClass("selected");
-  		$(".container-scroller").addClass('active');
+  		$(".login-wrapper").addClass('active');
   		$("#signup-wrapper").removeClass('active');
   	});
   	$('.selectpicker').selectpicker();
