@@ -524,9 +524,11 @@ header ul li a:hover {
 }
 
 #signin-page .form-wrapper h1 {
+  padding-top: 3rem;
   font-weight: lighter;
   color: rgb(0, 75, 122);
   line-height: 1.5;
+  
 }
 
 #signin-page .form-wrapper p {
@@ -538,7 +540,9 @@ header ul li a:hover {
   background: white;
   padding: 30px 50px;
   border-radius: 30px;
+
 }
+
 
 .login-wrapper h4 {
   color: rgb(0, 75, 122);
