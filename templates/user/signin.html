@@ -1,4 +1,4 @@
-{% extends "includes/base.html" %}{% load static %} {% block header %} {% endblock %}{% block nav %}{% endblock%}
+{% extends "includes/base.html" %}{% load static %} {% block nav %}{% endblock%}
 {% block nav2 %} {% endblock %} {% block content %}
 <section id="signin-page" class="section-container">
   <div
@@ -9,12 +9,22 @@
     <div class="container">
       <div class="row">
         <div class="col-md-7 mb-4 pt-md-5">
-          <h1 class="mb-4 ml-5 ">
-            <strong class="d-block">Welcome to Titan</strong> 
+          <h1 class="mb-4">
+            <strong class="d-block">Welcome to</strong> Titan
           </h1>
-          <p class="mb-5 mx-5">
+          <p class="mb-5">
             Sign up for free to earn and help in your free time!
-          </p>    
+          </p>
+          <div class="button-wrapper mb-5">
+            <a
+              href="#signin-wrapper"
+              class="btn transparent-btn mr-3 login selected"
+              >Login</a
+            >
+            <a href="#signup-wrapper" class="btn transparent-btn signup"
+              >Sign Up</a
+            >
+          </div>
           <div class="tutor-wrapper">
             <a id="tutor-text" href="#tutor" class="mr-md-5 d-inline-block">
               <div class="tutor-list selected">
@@ -37,24 +47,13 @@
               </div>
             </a>
           </div>
-
-          <div class="button-wrapper my-5 mx-5">
-            <a
-              href="#signin-wrapper"
-              class="btn transparent-btn mr-3 login selected"
-              >Login</a
-            >
-            <a href="#signup-wrapper" class="btn transparent-btn signup"
-              >Sign Up</a
-            >
-          </div>
         </div>
-        <div id="signin-wrapper" class="container-scroller active" >
+        <div id="signin-wrapper" class="container-scroller active">
           <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth">
-              <div class="row flex-grow mx-1" >
+              <div class="row flex-grow">
                 <div class="col-lg-12 mx-auto">
-                  <div class="auth-form-light text-left ">
+                  <div class="auth-form-light text-left p-5">
                     <h6 class="auth-link text-black">Login</h6>
                     <form class="pt-3" action="{% url 'login' %}" method="post">
                       {% csrf_token %}
@@ -123,7 +122,7 @@
                       </div>
                       <div class="text-center mt-4 font-weight-light">
                         Don't have an account?
-                        <a href="#signup-wrapper" class="text-primary Create"
+                        <a href="#signup-wrapper" class="text-primary"
                           >Create</a
                         >
                       </div>
@@ -146,16 +145,18 @@
           </div>
         </div>
 
-        <div id="signup-wrapper" class="container-scroller" style="display: none;">
+        <div id="signup-wrapper" class="container-scroller">
           <div class="container-fluid page-body-wrapper full-page-wrapper">
             <div class="content-wrapper d-flex align-items-center auth">
-              <div class="row flex-grow " style="margin-top: -45px;"  >
+              <div class="row flex-grow">
                 <div class="col-lg-12 mx-auto">
-                  <div class="auth-form-light text-left ">
+                  <div class="auth-form-light text-left p-2">
                     <h6 class="auth-link text-black">Signup</h6>
 
+                    <div class="brand-logo"></div>
+
                     <form
-                      class="pt-2"
+                      class="pt-4"
                       action="{% url 'signup' %}"
                       method="post"
                     >
@@ -277,7 +278,7 @@
                       </div>
                       <div class="text-center mt-4 font-weight-light">
                         Already have an account?
-                        <a href="#signin-wrapper" class="text-primary Login">Login</a>
+                        <a href="#signin-wrapper" class="text-primary">Login</a>
                       </div>
                     </form>
                     <!-- </div> -->
@@ -333,30 +334,6 @@
   		$(".form-wrapper").find(attribute).addClass('active');
   	});
 
-    //: login and signup button function newly added
-
-    $('.signup').click(function(){
-    $('#signin-wrapper').hide();
-    $('#signup-wrapper').show();
-    $('#signup-wrapper a').click(function(){
-      $('#signin-wrapper').show();
-      $('#signup-wrapper').hide();
-      })
-
-    })
-
-    $('.login').click(function(){
-    $('#signup-wrapper').hide();
-    $('#signin-wrapper').show();
-    $('#signin-wrapper a').click(function(){
-      $('#signin-wrapper').hide();
-      $('#signup-wrapper').show();
-      })
-    });
-
-    
-    
-
   	$(".signwrap").click(function (event) {
   		event.preventDefault();
   		var attribute = $(this).attr("href");
@@ -365,7 +342,6 @@
   		$(".container-scroller").removeClass('active');
   		$(".form-wrapper").find(attribute).addClass('active');
   	});
-
   	$(".loginwrap").click(function (event) {
   		event.preventDefault();
   		var attribute = $(this).attr("href");
